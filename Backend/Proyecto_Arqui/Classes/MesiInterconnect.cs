@@ -5,17 +5,17 @@ using System.Reflection.Metadata;
 
 namespace Proyecto_Arqui.Classes
 {
-    public sealed class Interconnect
+    public sealed class MesiInterconnect
     {
 
-        private readonly static Interconnect _instance = new Interconnect();
+        private readonly static MesiInterconnect _instance = new MesiInterconnect();
         public bool inst_active;
         public int active_cpu = -1;
         
 
         public List<CPU_activity> CPU_lists;
 
-        private Interconnect() {
+        private MesiInterconnect() {
             CPU_lists = new List<CPU_activity>();
 
             CPU_lists.Add(new CPU_activity(false));
@@ -23,7 +23,7 @@ namespace Proyecto_Arqui.Classes
             CPU_lists.Add(new CPU_activity(false));
         }
 
-        public static Interconnect Instance
+        public static MesiInterconnect Instance
         {
             get { return _instance; }
         }

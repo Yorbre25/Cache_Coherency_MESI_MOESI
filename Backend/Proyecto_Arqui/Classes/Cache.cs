@@ -32,7 +32,7 @@ namespace Proyecto_Arqui.Classes
             }
 
             int chache_to_replace = choose_cache_replacement();
-            List<int> cache_info = Interconnect.Instance.get_address(address, cpu_id);
+            List<int> cache_info = MesiInterconnect.Instance.get_address(address, cpu_id);
 
             memory[chache_to_replace][0] = cache_info[0];
             memory[chache_to_replace][1] = cache_info[1];
@@ -79,10 +79,10 @@ namespace Proyecto_Arqui.Classes
             {
                 memory[pos_in_cache][0] = 1;
                 memory[pos_in_cache][2] = value;
-                Interconnect.Instance.write_to_memory(address, value, cpu_id);
+                MesiInterconnect.Instance.write_to_memory(address, value, cpu_id);
             }
             // invalidate all other caches values
-            Interconnect.Instance.Invalidate(address, cpu_id);
+            MesiInterconnect.Instance.Invalidate(address, cpu_id);
         }
 
         private int choose_cache_replacement()
