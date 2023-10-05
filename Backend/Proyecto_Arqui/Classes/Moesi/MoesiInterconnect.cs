@@ -3,44 +3,50 @@ using System.Diagnostics;
 using System.Net;
 using System.Reflection.Metadata;
 
-namespace Proyecto_Arqui.Classes
+namespace Proyecto_Arqui.Classes.Moesi
 {
-    public sealed class MesiInterconnect
+    public sealed class MoesiInterconnect
     {
 
-        private readonly static MesiInterconnect _instance = new MesiInterconnect();
+        private readonly static MoesiInterconnect _instance = new MoesiInterconnect();
         public bool inst_active;
         public int active_cpu = -1;
-        
 
-        public List<CPU_activity> CPU_lists;
 
-        private MesiInterconnect() {
-            CPU_lists = new List<CPU_activity>();
+        public List<MoesiCPU_activity> CPU_lists;
 
-            CPU_lists.Add(new CPU_activity(false));
-            CPU_lists.Add(new CPU_activity(false));
-            CPU_lists.Add(new CPU_activity(false));
+        private MoesiInterconnect()
+        {
+            CPU_lists = new List<MoesiCPU_activity>();
+
+            CPU_lists.Add(new MoesiCPU_activity(false));
+            CPU_lists.Add(new MoesiCPU_activity(false));
+            CPU_lists.Add(new MoesiCPU_activity(false));
         }
 
-        public static MesiInterconnect Instance
+        public static MoesiInterconnect Instance
         {
             get { return _instance; }
         }
 
-        public List<int> get_address(int address, int cpu_id) {
+        public List<int> get_address(int address, int cpu_id)
+        {
+            List<int> response = new List<int>();
             int pos_in_cpu_list = find_in_caches(address, cpu_id);
-            if (pos_in_cpu_list != -1) {
+            if (pos_in_cpu_list != -1)
+            {
                 int pos_in_cache = CPU_lists[pos_in_cpu_list].CPU.cache.where_in_cache(address);
                 set_all_shared(address, cpu_id);
                 Console.WriteLine($"CPU {pos_in_cpu_list} passing information to CPU {cpu_id}\n");
                 Debug.WriteLine($"CPU {pos_in_cpu_list} passing information to CPU {cpu_id}\n");
-                return CPU_lists[pos_in_cpu_list].CPU.cache.memory[pos_in_cache];   
+                response.Add(2);
+                response.Add(address);
+                response.Add(CPU_lists[pos_in_cpu_list].CPU.cache.memory[pos_in_cache][2]); 
+                return response;
             }
             else
             {
-                int value_in_mem = Memory.Instance.get_from_address(address);
-                List<int> response = new List<int>();
+                int value_in_mem = MoesiMemory.Instance.get_from_address(address);
                 response.Add(1);
                 response.Add(address);
                 response.Add(value_in_mem);
@@ -52,8 +58,6 @@ namespace Proyecto_Arqui.Classes
 
         public void set_all_shared(int address, int cpu_id)
         {
-            bool save_to_mem = false;
-            int cpu_to_write = 0;
             int pos_in_cache;
             for (int i = 0; i < CPU_lists.Count; i++)
             {
@@ -62,21 +66,17 @@ namespace Proyecto_Arqui.Classes
                     pos_in_cache = CPU_lists[i].CPU.cache.where_in_cache(address);
                     if (pos_in_cache != -1 && CPU_lists[i].CPU.cache.memory[pos_in_cache][0] != 3)
                     {
-                        if (CPU_lists[i].CPU.cache.memory[pos_in_cache][0] == 0)
+                        //change state from modified or owned to owned in CPU
+                        if (CPU_lists[i].CPU.cache.memory[pos_in_cache][0] == 0 || CPU_lists[i].CPU.cache.memory[pos_in_cache][0] == 4)
                         {
-
-                            save_to_mem = true;
-                            cpu_to_write = i;
+                            CPU_lists[i].CPU.cache.memory[pos_in_cache][0] = 4;
                         }
-                        CPU_lists[i].CPU.cache.memory[pos_in_cache][0] = 2;
+
+                        else{
+                            CPU_lists[i].CPU.cache.memory[pos_in_cache][0] = 2;
+                        }
                     }
                 }
-            }
-            //write to mem if a value was modified in another cache.
-            if (save_to_mem)
-            {
-                pos_in_cache = CPU_lists[cpu_to_write].CPU.cache.where_in_cache(address);
-                write_to_memory(address, CPU_lists[cpu_to_write].CPU.cache.memory[pos_in_cache][2], cpu_to_write);
             }
 
         }
@@ -89,13 +89,14 @@ namespace Proyecto_Arqui.Classes
         public void write_to_memory(int address, int value, int cpu_id)
         {
             Console.WriteLine($"CPU {cpu_id} writting to memory");
-            Memory.Instance.write_to_address(address, value);
+            MoesiMemory.Instance.write_to_address(address, value);
         }
         private int find_in_caches(int address, int id_of_Caller)
         {
             for (int i = 0; i < CPU_lists.Count; i++)
-            {   
-                if( i != id_of_Caller) { 
+            {
+                if (i != id_of_Caller)
+                {
                     int pos_in_cache = CPU_lists[i].CPU.cache.where_in_cache(address);
                     if (pos_in_cache != -1 && CPU_lists[i].CPU.cache.memory[pos_in_cache][0] != 3)
                     {
@@ -108,9 +109,10 @@ namespace Proyecto_Arqui.Classes
 
         public void Invalidate(int address, int cpu_id)
         {
-            foreach (CPU_activity cpu_struct in CPU_lists)
+            foreach (MoesiCPU_activity cpu_struct in CPU_lists)
             {
-                if(cpu_id != cpu_struct.CPU.id) { 
+                if (cpu_id != cpu_struct.CPU.id)
+                {
                     foreach (var cache_mem in cpu_struct.CPU.cache.memory)
                     {
                         if (cache_mem[1] == address && cache_mem[0] != 3)
