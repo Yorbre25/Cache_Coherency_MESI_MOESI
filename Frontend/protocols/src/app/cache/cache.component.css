@@ -1,0 +1,21 @@
+
+td{
+    background-color: red;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 12px;
+    text-align: center;
+}
+th{
+    text-align: center;
+    height: 0px;
+}
+.cacheState{
+    width: 20%;
+}
+.cacheAddress{
+    width: 40%;
+}
+.cacheValue{
+    width: 40%;
+}
