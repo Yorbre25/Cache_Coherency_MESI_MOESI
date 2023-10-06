@@ -11,6 +11,7 @@ export class AppComponent {
   cache1Content:cacheLine[]=[];
   InstructionContent:String[]=[];
   //displayedColumns:string[]=["state","address","value"]
+  cache1Colors:string[]=[];
   title = 'protocols';
 
   constructor(){}
@@ -35,6 +36,7 @@ export class AppComponent {
     }
     ];
     this.InstructionContent=["Inc r3 r4","add r5 r5","read r3 45","read r2 r5"]
+    this.cache1Colors=["#FF5733", "#33FF57", "#5733FF","#5733FF" ]
     //this.cache1.data=this.cache1Content;
   }
 

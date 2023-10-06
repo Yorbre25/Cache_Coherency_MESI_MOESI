@@ -9,6 +9,7 @@ import { cacheLine } from 'src/interfaces/cacheRow';
 })
 export class CacheComponent {
   displayedColumns:string[]=["state","address","value"]
+  @Input()rowColors: string[] = [];
   cache:MatTableDataSource<cacheLine> =new MatTableDataSource<cacheLine>();
   @Input() cacheContent:cacheLine[]=[]
   constructor(){}
