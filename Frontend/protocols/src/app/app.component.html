@@ -54,15 +54,15 @@
 
     <div class="layer3">
       <div class="cache">
-        <app-cache [cacheContent]="cache1Content"></app-cache>
+        <app-cache [cacheContent]="cache1Content" [rowColors]="cache1Colors"></app-cache>
         
       </div>
       <div class="cache">
-        <app-cache [cacheContent]="cache1Content"></app-cache>
+        <app-cache [cacheContent]="cache2Content" [rowColors]="cache2Colors"></app-cache>
         
       </div>
       <div class="cache">
-        <app-cache [cacheContent]="cache1Content"></app-cache>
+        <app-cache [cacheContent]="cache3Content" [rowColors]="cache3Colors"></app-cache>
         
       </div>
       
@@ -92,5 +92,10 @@
     </div>
 
     
+    <div class="layer5">
+      <button mat-raised-button color="primary" (click)="buttonClick()">Click</button>
+
+    </div>
+
   </div>
 </body>

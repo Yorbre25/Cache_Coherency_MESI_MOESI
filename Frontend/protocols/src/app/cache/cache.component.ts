@@ -1,4 +1,4 @@
-import { Component,Input, SimpleChange } from '@angular/core';
+import { Component,Input, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { cacheLine } from 'src/interfaces/cacheRow';
 
@@ -9,6 +9,7 @@ import { cacheLine } from 'src/interfaces/cacheRow';
 })
 export class CacheComponent {
   displayedColumns:string[]=["state","address","value"]
+  @Input()rowColors: string[] = [];
   cache:MatTableDataSource<cacheLine> =new MatTableDataSource<cacheLine>();
   @Input() cacheContent:cacheLine[]=[]
   constructor(){}
@@ -17,8 +18,22 @@ export class CacheComponent {
     
     this.cache.data=this.cacheContent;
   }
-  ngOnChanges(change:SimpleChange){
-    this.cache.data=change.currentValue;
+  ngOnChanges(change:SimpleChanges){
+    console.log(change)
+    if(change==undefined)return
+    
+    try{
+      this.cache.data=change['cacheContent'].currentValue;
+    this.cache.data=[...this.cache.data];
+    }
+    catch(error){}
+    
+    try{
+      this.rowColors=change['rowColors'].currentValue;
+      this.rowColors=[...this.rowColors];
+    }
+    catch(error){}
+    
 
   }
 }

@@ -10,6 +10,8 @@ import { CacheComponent } from './cache/cache.component';
 import { CpuComponent } from './cpu/cpu.component';
 import { PrincipalBusComponent } from './principal-bus/principal-bus.component';
 import { SecondaryBusComponent } from './secondary-bus/secondary-bus.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { SecondaryBusComponent } from './secondary-bus/secondary-bus.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule, 
-    MatTableModule
+    MatTableModule,
+    MatCheckboxModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
