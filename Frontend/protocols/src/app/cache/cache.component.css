@@ -1,15 +1,17 @@
-
+table {
+    max-height: 100%;
+}
 td{
-    background-color: red;
-    border-width: 2px;
+    background-color: white;
+    border-width: 4px;
     border-style: solid;
-    border-radius: 12px;
+    border-color: gray;
+    border-radius: 8px;
     text-align: center;
+    font-weight: bold;
+    
 }
-th{
-    text-align: center;
-    height: 0px;
-}
+
 .cacheState{
     width: 20%;
 }

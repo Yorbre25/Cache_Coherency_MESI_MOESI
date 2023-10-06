@@ -7,12 +7,14 @@ import { TableCellComponent } from './table-cell/table-cell.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import { CacheComponent } from './cache/cache.component';
+import { CpuComponent } from './cpu/cpu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableCellComponent,
-    CacheComponent
+    CacheComponent,
+    CpuComponent
   ],
   imports: [
     BrowserModule,

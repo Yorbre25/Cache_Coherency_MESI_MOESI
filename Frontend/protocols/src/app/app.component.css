@@ -21,24 +21,35 @@ body{
 
 .layer1,.layer2,.layer3,.layer4{
     width: 80%;
-    height: 25%;
+    height: 15%;
     background-color:yellow;
     border-width: 12px;
     border-color: black;
     border-style: solid;
 }
-.layer3{
+.layer3,.layer4{
+
+
+    
+    width: 60%;
+    height: 15%;
     display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-around;
 	align-items: center;
 	align-content: stretch;
+
 }
 
 
 .cache{
-    width: 30%;
+    width: 25%;
+    
+}
+
+.cpu{
+    width: 20%;
 }
 
 

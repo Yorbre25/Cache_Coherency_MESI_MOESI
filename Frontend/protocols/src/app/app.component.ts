@@ -9,6 +9,7 @@ import { cacheLine } from 'src/interfaces/cacheRow';
 export class AppComponent {
   //cache1:MatTableDataSource<cacheLine> =new MatTableDataSource<cacheLine>();
   cache1Content:cacheLine[]=[];
+  InstructionContent:String[]=[];
   //displayedColumns:string[]=["state","address","value"]
   title = 'protocols';
 
@@ -33,6 +34,7 @@ export class AppComponent {
       value:5  
     }
     ];
+    this.InstructionContent=["Inc r3 r4","add r5 r5","read r3 45","read r2 r5"]
     //this.cache1.data=this.cache1Content;
   }
 
