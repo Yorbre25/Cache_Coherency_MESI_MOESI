@@ -1,5 +1,5 @@
-table {
-    max-height: 100%;
+table{
+    height: 100%;
 }
 td{
     background-color: white;
@@ -9,6 +9,10 @@ td{
     border-radius: 8px;
     text-align: center;
     font-weight: bold;
+    
+}
+tr{
+    height: 20%;
     
 }
 
@@ -21,3 +25,5 @@ td{
 .cacheValue{
     width: 40%;
 }
+
+

@@ -1,6 +1,5 @@
 import { Component,Input, SimpleChange } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { cacheLine } from 'src/interfaces/cacheRow';
 
 @Component({
   selector: 'app-cpu',
