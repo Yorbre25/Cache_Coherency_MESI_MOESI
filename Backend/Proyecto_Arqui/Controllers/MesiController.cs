@@ -45,25 +45,31 @@ namespace Proyecto_Arqui.Controllers
         [HttpGet("Read")]
         public string Get(int address, int reg, int cpu_id)
         {
-            MesiInterconnect.Instance.pass_inst("read", cpu_id,reg,address);
+            var msg = new front_end_data(MesiInterconnect.Instance);
+            MesiInterconnect.Instance.pass_inst("read", cpu_id, reg, address);
             Thread.Sleep(5000);
-            
-            return JsonConvert.SerializeObject(response[cpu_id]);
+            msg.update_data(MesiInterconnect.Instance, response[cpu_id]);
+            return JsonConvert.SerializeObject(msg);
         }
 
         [HttpPost("Write")]
         public string Post(int address, int reg, int cpu_id)
         {
-            
+            var msg = new front_end_data(MesiInterconnect.Instance);
             MesiInterconnect.Instance.pass_inst("write", cpu_id, reg, address);
-            return JsonConvert.SerializeObject(response[cpu_id]);
+            Thread.Sleep(5000);
+            msg.update_data(MesiInterconnect.Instance, response[cpu_id]);
+            return JsonConvert.SerializeObject(msg);
         }
 
         [HttpPost("Increment")]
-        public OkResult Post(int reg, int cpu_id)
+        public string Post(int reg, int cpu_id)
         {
+            var msg = new front_end_data(MesiInterconnect.Instance);
             MesiInterconnect.Instance.pass_inst("increment", cpu_id, reg, 0);
-            return Ok();
+            Thread.Sleep(5000);
+            msg.update_data(MesiInterconnect.Instance, response[cpu_id]);
+            return JsonConvert.SerializeObject(msg);
         }
     }
 }

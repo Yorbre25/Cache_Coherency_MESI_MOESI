@@ -1,25 +1,20 @@
-﻿using Proyecto_Arqui.Controllers;
+﻿using Proyecto_Arqui.Classes.Moesi;
+using Proyecto_Arqui.Controllers;
 using System.Diagnostics;
 
 namespace Proyecto_Arqui.Classes.Mesi
 {
-    public class MesiCPU
+    public class MesiCPU: CPU
     {
-        private int[] list_register;
-        public MesiCache cache;
-        public int id;
-        public string instruction_to_execute;
         public MesiCPU(int _id)
         {
             list_register = new int[8];
             cache = new MesiCache();
             id = _id;
-            Debug.WriteLine($"CPU:{id}, Starting thread");
-            Console.WriteLine($"CPU:{id}, Starting thread");
+            Debug.WriteLine($"MesiCPU:{id}, Starting thread");
+            Console.WriteLine($"MesiCPU:{id}, Starting thread");
             Thread thread = new Thread(new ThreadStart(check_interconnect));
             thread.Start();
-            Debug.WriteLine($"thread surived: {thread.IsAlive}");
-            Console.WriteLine($"thread surived: {thread.IsAlive}");
         }
         public void write(int address, int reg)
         {
@@ -68,8 +63,8 @@ namespace Proyecto_Arqui.Classes.Mesi
                 {
                     lock (MesiInterconnect.Instance)
                     {
-                        Debug.WriteLine($"CPU:{id}, blocking Interconnect and executing");
-                        Console.WriteLine($"CPU:{id}, blocking Interconnect and executing");
+                        Debug.WriteLine($"MesiCPU:{id}, blocking Interconnect and executing");
+                        Console.WriteLine($"MesiCPU:{id}, blocking Interconnect and executing");
                         MesiInterconnect.Instance.inst_active = true;
                         MesiInterconnect.Instance.active_cpu = id;
                         execute_inst(instruction_to_execute);
@@ -81,14 +76,31 @@ namespace Proyecto_Arqui.Classes.Mesi
                 }
                 else
                 {
-                    Debug.WriteLine($"CPU:{id}, sleeping");
-                    Console.WriteLine($"CPU:{id}, sleeping");
+                    Debug.WriteLine($"MesiCPU:{id}, sleeping");
+                    Console.WriteLine($"MesiCPU:{id}, sleeping");
                     TimeSpan interval = new TimeSpan(0, 0, 2);
                     Thread.Sleep(interval);
                 }
                 
             }
 
+        }
+
+        public override CPU copy()
+        {
+            var res = new MesiCPU(this.id);
+            for (int i = 0; i < this.cache.memory.Count; i++)
+            {
+                res.cache.memory[i][0] = this.cache.memory[i][0];
+                res.cache.memory[i][1] = this.cache.memory[i][1];
+                res.cache.memory[i][2] = this.cache.memory[i][2];
+            }
+
+            for (int i = 0; i < this.list_register.Length; i++)
+            {
+                res.list_register[i] = this.list_register[i];
+            }
+            return res;
         }
 
     }

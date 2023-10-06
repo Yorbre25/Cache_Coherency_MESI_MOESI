@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Proyecto_Arqui.Classes.Moesi
 {
-    public class MoesiCache
+    public class MoesiCache:Cache
     {
         //STATES:
         //0 = M
@@ -12,7 +12,6 @@ namespace Proyecto_Arqui.Classes.Moesi
         //1 = E
         //2 = S
         //3 = I
-        public List<List<int>> memory;
         public MoesiCache()
         {
             memory = new List<List<int>>();
@@ -23,7 +22,7 @@ namespace Proyecto_Arqui.Classes.Moesi
         }
 
         
-        public Transaction_tracker get_from_address(int address, int cpu_id)
+        public override Transaction_tracker get_from_address(int address, int cpu_id)
         {
             List<int> cache_info = new List<int>();
             Transaction_tracker res = new Transaction_tracker();
@@ -90,7 +89,7 @@ namespace Proyecto_Arqui.Classes.Moesi
 
             return res;
         }
-        public Transaction_tracker write_to_address(int address, int value, int cpu_id)
+        public override Transaction_tracker write_to_address(int address, int value, int cpu_id)
         {
             Transaction_tracker res = new Transaction_tracker();
             int pos_in_cache = where_in_cache(address);
@@ -166,7 +165,7 @@ namespace Proyecto_Arqui.Classes.Moesi
             return rnd.Next(memory.Count);
         }
 
-        public int where_in_cache(int address)
+        public override int where_in_cache(int address)
         {
             for (int i = 0; i < memory.Count; i++)
             {

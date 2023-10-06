@@ -3,14 +3,14 @@ using System.Net;
 
 namespace Proyecto_Arqui.Classes.Mesi
 {
-    public class MesiCache
+    public class MesiCache:Cache
     {
         //STATES:
         //0 = M
         //1 = E
         //2 = S
         //3 = I
-        public List<List<int>> memory;
+        
         public MesiCache()
         {
             memory = new List<List<int>>();
@@ -20,7 +20,7 @@ namespace Proyecto_Arqui.Classes.Mesi
             memory.Add(new List<int>(new int[] { 3, 0, 0 }));
 
         }
-        public Transaction_tracker get_from_address(int address, int cpu_id)
+        public override Transaction_tracker get_from_address(int address, int cpu_id)
         {
             List<int> cache_info;
             Transaction_tracker res = new Transaction_tracker();
@@ -55,7 +55,7 @@ namespace Proyecto_Arqui.Classes.Mesi
             res.cache_resp = cache_info;
             return res;
         }
-        public Transaction_tracker write_to_address(int address, int value, int cpu_id)
+        public override Transaction_tracker write_to_address(int address, int value, int cpu_id)
         {
             Transaction_tracker res = new Transaction_tracker();
             int pos_in_cache = where_in_cache(address);
@@ -135,7 +135,7 @@ namespace Proyecto_Arqui.Classes.Mesi
             return rnd.Next(memory.Count);
         }
 
-        public int where_in_cache(int address)
+        public override int where_in_cache(int address)
         {
             for (int i = 0; i < memory.Count; i++)
             {

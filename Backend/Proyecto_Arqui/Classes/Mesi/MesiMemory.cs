@@ -3,7 +3,7 @@
     public sealed class MesiMemory
     {
         private readonly static MesiMemory _instance = new MesiMemory();
-        private int[] memory;
+        public int[] memory;
         private MesiMemory()
         {
             memory = new int[16] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0, 0, 0, 0, 0};
