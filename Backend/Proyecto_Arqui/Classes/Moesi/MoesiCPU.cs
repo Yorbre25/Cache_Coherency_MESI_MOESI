@@ -13,21 +13,23 @@ namespace Proyecto_Arqui.Classes.Moesi
             list_register = new int[8];
             cache = new MoesiCache();
             id = _id;
-
+            Debug.WriteLine($"CPU:{id}, Starting thread");
+            Console.WriteLine($"CPU:{id}, Starting thread");
             Thread thread = new Thread(new ThreadStart(check_interconnect));
             thread.Start();
+            Debug.WriteLine($"thread surived: {thread.IsAlive}");
+            Console.WriteLine($"thread surived: {thread.IsAlive}");
         }
         public void write(int address, int reg)
-        { 
-            cache.write_to_address(address, list_register[reg], id);
-            Console.WriteLine($"Data is in register:{reg}, written to address: {address}\n");
-            Debug.WriteLine($"Data is in register:{reg}, written to address: {address}\n");
+        {
+            var write = cache.write_to_address(address, list_register[reg], id);
+            write.updateCost();
         }
         public void read(int address, int reg)
         {
-            list_register[reg] = cache.get_from_address(address, id)[2];
-            Console.WriteLine($"Value of data is {list_register[reg]}\n");
-            Debug.WriteLine($"Value of data is {list_register[reg]}\n");
+            var read = cache.get_from_address(address, id);
+            read.updateCost();
+            list_register[reg] = read.cache_resp[2];
         }
         public void increment_reg(int reg)
         {
@@ -59,14 +61,17 @@ namespace Proyecto_Arqui.Classes.Moesi
             {
                 if (instruction_to_execute != null && MoesiInterconnect.Instance.inst_active == false && MoesiInterconnect.Instance.active_cpu == -1)
                 {
-                    Debug.WriteLine($"CPU:{id}, blocking Interconnect and executing");
-                    Console.WriteLine($"CPU:{id}, blocking Interconnect and executing");
-                    MoesiInterconnect.Instance.inst_active = true;
-                    MoesiInterconnect.Instance.active_cpu = id;
-                    execute_inst(instruction_to_execute);
-                    instruction_to_execute = null;
-                    MoesiInterconnect.Instance.active_cpu = -1;
-                    MoesiInterconnect.Instance.inst_active = false;
+                    lock(MoesiInterconnect.Instance)
+                    {
+                        Debug.WriteLine($"CPU:{id}, blocking Interconnect and executing");
+                        Console.WriteLine($"CPU:{id}, blocking Interconnect and executing");
+                        MoesiInterconnect.Instance.inst_active = true;
+                        MoesiInterconnect.Instance.active_cpu = id;
+                        execute_inst(instruction_to_execute);
+                        instruction_to_execute = null;
+                        MoesiInterconnect.Instance.active_cpu = -1;
+                        MoesiInterconnect.Instance.inst_active = false;
+                    }
                 }
                 else
                 {

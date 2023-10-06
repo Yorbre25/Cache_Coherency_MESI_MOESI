@@ -22,80 +22,135 @@ namespace Proyecto_Arqui.Classes.Moesi
             memory.Add(new List<int>(new int[] { 3, 0, 0 }));
         }
 
-
-        public List<int> get_from_address(int address, int cpu_id)
+        
+        public Transaction_tracker get_from_address(int address, int cpu_id)
         {
+            List<int> cache_info = new List<int>();
+            Transaction_tracker res = new Transaction_tracker();
             int pos_in_cache = where_in_cache(address);
             if (pos_in_cache != -1)
             {
-                Debug.WriteLine($"CPU {cpu_id} has data in cache\n");
-                Console.WriteLine($"CPU {cpu_id} has data in cache\n");
-                return memory[pos_in_cache];
-            }
-
-            int chache_to_replace = choose_cache_replacement();
-            List<int> cache_info = MoesiInterconnect.Instance.get_address(address, cpu_id);
-
-            //write-back policy
-            if (memory[chache_to_replace][0] == 0)
+                res.com_types["cache"] += 1;
+                cache_info = memory[pos_in_cache];
+            }else
             {
-                MoesiInterconnect.Instance.write_to_memory(memory[chache_to_replace][1], memory[chache_to_replace][2], cpu_id);
-            }
-            else if (memory[chache_to_replace][0] == 4)
-            {
-                MoesiInterconnect.Instance.write_to_memory(memory[chache_to_replace][1], memory[chache_to_replace][2], cpu_id);
-                MoesiInterconnect.Instance.Invalidate(memory[chache_to_replace][1], cpu_id);
-            }
 
-            //replace memory
-            memory[chache_to_replace][0] = cache_info[0];
-            memory[chache_to_replace][1] = cache_info[1];
-            memory[chache_to_replace][2] = cache_info[2];
+                int chache_to_replace = choose_cache_replacement();
+                res.transactionList.Add(new transaction("READ_REQ", chache_to_replace, cpu_id, address, -1));
+                var temp = MoesiInterconnect.Instance.get_address(address, cpu_id);
+                res.transactionList.AddRange(temp.transactionList);
+                cache_info = temp.cache_resp;
+                res.add(temp.com_types);
 
-            return cache_info;
+                //write-back policy
+                if (memory[chache_to_replace][0] == 0)
+                {
+                    res.transactionList.Add(MoesiInterconnect.Instance.write_to_memory(memory[chache_to_replace][1], memory[chache_to_replace][2], cpu_id));
+                    res.com_types["memory"] += 1;
+                }
+                else if (memory[chache_to_replace][0] == 4)
+                {
+                    res.transactionList.Add(MoesiInterconnect.Instance.write_to_memory(memory[chache_to_replace][1], memory[chache_to_replace][2], cpu_id));
+                    var temp1 = MoesiInterconnect.Instance.Invalidate(memory[chache_to_replace][1], cpu_id);
+                    res.transactionList.AddRange(temp1.transactionList);
+                    res.add(temp1.com_types);
+                    res.com_types["memory"] += 1;
+                }
+
+                //replace memory
+                res.transactionList.AddRange(state_for_tracker(cache_info, chache_to_replace, cpu_id).transactionList);
+                memory[chache_to_replace][0] = cache_info[0];
+                memory[chache_to_replace][1] = cache_info[1];
+                memory[chache_to_replace][2] = cache_info[2];
+                cache_info = memory[chache_to_replace];
+            }
+            res.cache_resp = cache_info;
+            return res;
         }
-        public void write_to_address(int address, int value, int cpu_id)
+
+        private Transaction_tracker state_for_tracker(List<int> memory, int pos_in_cache, int cpu_id)
         {
+            Transaction_tracker res = new Transaction_tracker();
+            if (memory[0] == 1)
+            {
+                res.transactionList.Add(new transaction("EX", pos_in_cache, cpu_id, memory[1], memory[2]));
+            }
+            else if (memory[0] == 2)
+            {
+                res.transactionList.Add(new transaction("SHARED", pos_in_cache, cpu_id, memory[1], memory[2]));
+            }
+            else if (memory[0] == 4)
+            {
+                res.transactionList.Add(new transaction("OWN", pos_in_cache, cpu_id, memory[1], memory[2]));
+            }
+            else
+            {
+                res.transactionList.Add(new transaction("MOD", pos_in_cache, cpu_id, memory[1], memory[2]));
+            }
+
+            return res;
+        }
+        public Transaction_tracker write_to_address(int address, int value, int cpu_id)
+        {
+            Transaction_tracker res = new Transaction_tracker();
             int pos_in_cache = where_in_cache(address);
             if (pos_in_cache == -1)
             {
                 Debug.WriteLine($"CPU {cpu_id} did not have address in cache\n");
                 Console.WriteLine($"CPU {cpu_id} did not have address in cache\n");
-                int chache_to_replace = choose_cache_replacement();
-                List<int> cache_info = get_from_address(address, cpu_id);
-                pos_in_cache = chache_to_replace;
+                var temp1 = get_from_address(address, cpu_id);
+                pos_in_cache = where_in_cache(address);
+                res.transactionList.AddRange(temp1.transactionList);
+                res.add(temp1.com_types);
             }
             else
             {
-                Debug.WriteLine($"CPU {cpu_id} has data in cache\n");
-                Console.WriteLine($"CPU {cpu_id} has data in cache\n");
+                res.com_types["cache"] += 1;
             }
 
-            write_and_invalidate(value, address, pos_in_cache, cpu_id);
+            res.com_types["cache"] += 1;
+            var temp = write_and_invalidate(value, address, pos_in_cache, cpu_id);
+            res.transactionList.AddRange(temp.transactionList);
+            res.add(temp.com_types);
+            return res;
         }
 
-        private void write_and_invalidate(int value, int address, int pos_in_cache, int cpu_id)
+        private Transaction_tracker write_and_invalidate(int value, int address, int pos_in_cache, int cpu_id)
         {
+            Transaction_tracker res = new Transaction_tracker();
             //if already modified, same state just change value in cache
             if (memory[pos_in_cache][0] == 0)
             {
+                res.transactionList.Add(new transaction("MOD", pos_in_cache, cpu_id, address, value));
                 memory[pos_in_cache][2] = value;
             }
 
             //if already exlusive, change state from exclusive to Modified and value in cache
             else if (memory[pos_in_cache][0] == 1)
             {
+                res.transactionList.Add(new transaction("MOD", pos_in_cache, cpu_id, address, value));
                 memory[pos_in_cache][0] = 0;
                 memory[pos_in_cache][2] = value;
             }
             //if already shared, change state from shared to Modified and value in cache.
             else if (memory[pos_in_cache][0] == 2)
             {
+                res.transactionList.Add(new transaction("MOD", pos_in_cache, cpu_id, address, value));
+                memory[pos_in_cache][0] = 0;
+                memory[pos_in_cache][2] = value;
+            }
+            //if already in owned, change state from owned to modified.
+            else if (memory[pos_in_cache][0] == 4)
+            {
+                res.transactionList.Add(new transaction("MOD", pos_in_cache, cpu_id, address, value));
                 memory[pos_in_cache][0] = 0;
                 memory[pos_in_cache][2] = value;
             }
             // invalidate all other caches values
-            MoesiInterconnect.Instance.Invalidate(address, cpu_id);
+            var temp = MoesiInterconnect.Instance.Invalidate(address, cpu_id);
+            res.transactionList.AddRange(temp.transactionList);
+            res.add(temp.com_types);
+            return res;
         }
 
         private int choose_cache_replacement()

@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Proyecto_Arqui.Classes;
 using Proyecto_Arqui.Classes.Mesi;
 using System.Net;
+using System.Transactions;
 
 namespace Proyecto_Arqui.Controllers
 {
@@ -8,6 +11,29 @@ namespace Proyecto_Arqui.Controllers
     [Route("[controller]")]
     public class MesiController : ControllerBase
     {
+        private static List<Transaction_tracker> response = new List<Transaction_tracker>();
+
+        public static Transaction_tracker get_execution(int cpu_id)
+        {
+            if (response.Count < 3)
+            {
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+            }
+            return response[cpu_id];
+        }
+
+        public static void set_execution(int cpu_id, Transaction_tracker exec)
+        {
+            if (response.Count < 3)
+            {
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+            }
+            response[cpu_id] = exec;
+        }
 
         private readonly ILogger<MesiController> _logger;
 
@@ -17,17 +43,20 @@ namespace Proyecto_Arqui.Controllers
         }
 
         [HttpGet("Read")]
-        public OkResult Get(int address, int reg, int cpu_id)
+        public string Get(int address, int reg, int cpu_id)
         {
             MesiInterconnect.Instance.pass_inst("read", cpu_id,reg,address);
-            return Ok();
+            Thread.Sleep(5000);
+            
+            return JsonConvert.SerializeObject(response[cpu_id]);
         }
 
         [HttpPost("Write")]
-        public OkResult Post(int address, int reg, int cpu_id)
+        public string Post(int address, int reg, int cpu_id)
         {
+            
             MesiInterconnect.Instance.pass_inst("write", cpu_id, reg, address);
-            return Ok();
+            return JsonConvert.SerializeObject(response[cpu_id]);
         }
 
         [HttpPost("Increment")]
