@@ -1,9 +1,9 @@
 export interface transition{
-    op:string;
-    cpu_num:number;
-    pos_cache: number;
-    address:number;
-    value:number
+    Op:string;
+    Cpu_num:number;
+    Pos_cache: number;
+    Address:number;
+    Value:number
 
 }
 

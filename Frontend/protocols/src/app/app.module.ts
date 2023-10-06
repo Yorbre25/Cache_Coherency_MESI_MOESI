@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import { CacheComponent } from './cache/cache.component';
 import { CpuComponent } from './cpu/cpu.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { CpuComponent } from './cpu/cpu.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule, 
-    MatTableModule
+    MatTableModule,
+    MatCheckboxModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

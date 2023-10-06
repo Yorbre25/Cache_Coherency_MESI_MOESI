@@ -16,11 +16,11 @@
         
       </div>
       <div class="cache">
-        <app-cache [cacheContent]="cache1Content"></app-cache>
+        <app-cache [cacheContent]="cache2Content" [rowColors]="cache2Colors"></app-cache>
         
       </div>
       <div class="cache">
-        <app-cache [cacheContent]="cache1Content"></app-cache>
+        <app-cache [cacheContent]="cache3Content" [rowColors]="cache3Colors"></app-cache>
         
       </div>
       
@@ -46,6 +46,11 @@
         </app-cpu>
 
       </div>
+
+    </div>
+
+    <div class="layer5">
+      <button mat-raised-button color="primary" (click)="buttonClick()">Click</button>
 
     </div>
 
