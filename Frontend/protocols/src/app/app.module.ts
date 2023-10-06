@@ -8,13 +8,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import { CacheComponent } from './cache/cache.component';
 import { CpuComponent } from './cpu/cpu.component';
+import { PrincipalBusComponent } from './principal-bus/principal-bus.component';
+import { SecondaryBusComponent } from './secondary-bus/secondary-bus.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableCellComponent,
     CacheComponent,
-    CpuComponent
+    CpuComponent,
+    PrincipalBusComponent,
+    SecondaryBusComponent
   ],
   imports: [
     BrowserModule,

@@ -1,14 +1,56 @@
 <body>
   <div class="ground">
-     
     <div class="layer1">
       
       
     </div>
 
     <div class="layer2">
-
+      
     </div>
+
+    <div class="data-bus" style="margin: 60px;">
+
+      <div class="principal-bus" style="position: absolute; ">
+        <app-principal-bus></app-principal-bus>
+      </div>
+
+      <div class="secondary-buses">
+        <div class="secondary-buses-up" >
+          <div class="arrow-bidirectional" style="position: absolute; transform: rotate(90deg);  width: 50px; top: 54%; right: 80%;">
+          </div>
+
+          <div class="principal-bus" style="position: absolute; transform: rotate(90deg);  width: 50px; top: 54%; right: 50%;">
+            <app-principal-bus></app-principal-bus>
+          </div>
+
+          <div class="principal-bus" style="position: absolute; transform: rotate(90deg);  width: 50px; top: 54%; right: 20%;">
+            <app-principal-bus></app-principal-bus>
+          </div>
+        </div>
+
+        <div class="secondary-buses-down">
+
+          <div class="principal-bus" style="position: absolute; transform: rotate(90deg);  width: 50px; top: 61%; right: 70%;">
+            <app-principal-bus></app-principal-bus>
+          </div>
+
+          <div class="principal-bus" style="position: absolute; transform: rotate(90deg);  width: 50px; top: 61%; right: 50%;">
+            <app-principal-bus></app-principal-bus>
+          </div>
+
+          <div class="principal-bus" style="position: absolute; transform: rotate(90deg);  width: 50px; top: 61%; right: 20%;">
+            <app-principal-bus></app-principal-bus>
+          </div>
+
+        </div>
+        
+  
+      </div>
+      
+    </div>
+    
+    
 
     <div class="layer3">
       <div class="cache">
@@ -49,5 +91,6 @@
 
     </div>
 
+    
   </div>
 </body>
