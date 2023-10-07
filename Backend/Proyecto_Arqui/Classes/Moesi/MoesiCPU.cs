@@ -15,8 +15,8 @@ namespace Proyecto_Arqui.Classes.Moesi
             list_register = new int[8];
             cache = new MoesiCache();
             id = _id;
-            Debug.WriteLine($"CPU:{id}, Starting thread");
-            Console.WriteLine($"CPU:{id}, Starting thread");
+            instrucctions = new List<string>();
+            instrucctions_executed = new List<string>();
             Thread thread = new Thread(new ThreadStart(check_interconnect));
             thread.Start();
         }
@@ -105,23 +105,25 @@ namespace Proyecto_Arqui.Classes.Moesi
             }
 
             res.instrucctions = new List<string>();
-            if(this.instrucctions_executed.Count == 0)
+            if (this.instrucctions_executed.Count == 0)
             {
-                var str = "";
-                str.Concat(str.Concat(this.instrucctions[0]));
-                res.instrucctions.Add(str);
+                res.instrucctions.Add(this.instrucctions[0]);
+                res.instrucctions.Add(this.instrucctions[1]);
+                res.instrucctions.Add(this.instrucctions[2]);
+                res.instrucctions.Add(this.instrucctions[3]);
             }
             else
             {
-                res.instrucctions.Add(this.instrucctions_executed[0]);
+                res.instrucctions.Add(new string(this.instrucctions_executed[this.instrucctions_executed.Count - 1]));
+                res.instrucctions.Add(this.instrucctions[0]);
+                res.instrucctions.Add(this.instrucctions[1]);
+                res.instrucctions.Add(this.instrucctions[2]);
             }
-            res.instrucctions.Add(this.instrucctions[0]);
-            res.instrucctions.Add(this.instrucctions[1]);
-            res.instrucctions.Add(this.instrucctions[2]);
 
             res.instrucctions_executed = new List<string>();
             return res;
         }
+    
         public void generate_inst()
         {
             this.instrucctions = new List<string>();
