@@ -89,7 +89,6 @@ namespace Proyecto_Arqui.Classes.Moesi
                     Thread.Sleep(interval);
                 }
             }
-
         }
 
         public override CPU copy()

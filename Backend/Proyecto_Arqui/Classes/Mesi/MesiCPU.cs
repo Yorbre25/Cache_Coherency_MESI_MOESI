@@ -78,6 +78,10 @@ namespace Proyecto_Arqui.Classes.Mesi
             {
                 write(address_to_exec, reg_to_exec);
             }
+            else if (string.Compare(instruction_to_execute, "write") == 0)
+            {
+                write(address_to_exec, reg_to_exec);
+            }
             else if (string.Compare(instruction_to_execute, "increment") == 0)
             {
                 increment_reg(reg_to_exec);
@@ -120,7 +124,7 @@ namespace Proyecto_Arqui.Classes.Mesi
 
         public override CPU copy()
         {
-            var res = new MesiCPU(this.id);
+            var res = new MesiCPU(7);
             for (int i = 0; i < this.cache.memory.Count; i++)
             {
                 res.cache.memory[i][0] = this.cache.memory[i][0];
@@ -133,22 +137,10 @@ namespace Proyecto_Arqui.Classes.Mesi
             }
 
             res.instrucctions = new List<string>();
-            if (this.instrucctions_executed.Count == 0)
-            {
-                res.instrucctions.Add(this.instrucctions[0]);
-                res.instrucctions.Add(this.instrucctions[1]);
-                res.instrucctions.Add(this.instrucctions[2]);
-                res.instrucctions.Add(this.instrucctions[3]);
-            }
-            else
-            {
-                res.instrucctions.Add(new string(this.instrucctions_executed[this.instrucctions_executed.Count-1]));
-                res.instrucctions.Add(this.instrucctions[0]);
-                res.instrucctions.Add(this.instrucctions[1]);
-                res.instrucctions.Add(this.instrucctions[2]);
-            }
-            
-
+            res.instrucctions.Add(this.instrucctions[0]);
+            res.instrucctions.Add(this.instrucctions[1]);
+            res.instrucctions.Add(this.instrucctions[2]);
+            res.instrucctions.Add(this.instrucctions[3]);
             res.instrucctions_executed = new List<string>();
             return res;
         }
