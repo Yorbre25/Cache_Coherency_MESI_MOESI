@@ -121,6 +121,8 @@ export class AppComponent {
   
   handleTransaction(tran:transition){
     let state=stateDict[tran.Op]
+    console.log(tran)
+    this.handleTransactionBuses(tran)
     
     if(validStates.some(x=> x===state)){ //true change of state MOESI
       this.changeData(tran.Cpu_num,tran.Pos_cache,tran.Op,tran.Address,tran.Value,state)
@@ -159,6 +161,22 @@ export class AppComponent {
 
    
     
+  }
+
+  handleTransactionBuses(tran:transition){
+    if(tran.Op == "SHARED"){
+      this.isArrowColored10 = true;
+      this.isArrowColored9 = true;
+      this.isArrowColored11 = true;
+    } else{
+      this.isArrowColored10 = false;
+      this.isArrowColored9 = false;
+      this.isArrowColored11 = false;
+    }
+    //this.currentReadReq
+    if(tran.Op == ""){
+
+    }
   }
 
   highlight(cache:number,row:number):void{

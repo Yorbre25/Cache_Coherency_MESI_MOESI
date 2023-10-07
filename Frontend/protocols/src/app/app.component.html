@@ -30,7 +30,7 @@
         <app-principal-bus></app-principal-bus>
       </div>
 
-      <div class="secondary-buses">
+      <div class="secondary-buses" style="z-index: 100;">
 
         <div class="secondary-buses-down">
           <div class="arrow-bidirectional" (click)="isArrowColored1=!isArrowColored1" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-blue': isArrowColored1, 'no-before': true}" style="position: absolute; right: 40%; height: 15%; margin-top: -8%;">
@@ -57,9 +57,9 @@
         <app-principal-bus></app-principal-bus>
       </div>
 
-      <div class="secondary-buses">
+      <div class="secondary-buses" style="z-index: 100;">
         <div class="secondary-buses-up" >
-          <div class="arrow-bidirectional" (click)="isArrowColored5=!isArrowColored5" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-green': isArrowColored5, 'no-after': true}" style="position: absolute;  right: 55%; height: 25%; margin-top: -12%;">
+          <div class="arrow-bidirectional" (click)="isArrowColored5=!isArrowColored5" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-green': isArrowColored5, 'no-after': true}" style="position: absolute;  right: 55%; height: 25%; margin-top: -18%;">
           </div>
         </div>
 
@@ -73,6 +73,7 @@
 
           <div class="arrow-bidirectional" (click)="isArrowColored8=!isArrowColored8" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-green': isArrowColored8, 'no-before': true}" style="position: absolute;right: 30%; height: 15%; margin-top: 1%; ">
           </div>
+
         </div>
       </div>
       

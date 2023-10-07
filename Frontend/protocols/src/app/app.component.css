@@ -205,7 +205,7 @@ body{
     background-color: blue; /* Cambia a tu color preferido */
   }
   .arrow-colored-green {
-    background-color: rgb(0, 199, 0); /* Cambia a tu color preferido */
+    background-color: greenyellow; /* Cambia a tu color preferido */
   }
 
   .arrow-colored:before,
@@ -218,9 +218,11 @@ body{
     border-color: blue transparent transparent transparent; /* Cambia 'red' a tu color preferido */
   }
 
-  .arrow-colored-green:before,
+  .arrow-colored-green:before{
+    border-color:    transparent transparent greenyellow transparent ; 
+  }
   .arrow-colored-green:after {
-    border-color:  rgb(0, 199, 0)  transparent transparent transparent ; /* Cambia 'red' a tu color preferido */
+    border-color:  greenyellow transparent transparent transparent ; /* Cambia 'red' a tu color preferido */
   }
   
   .arrow-colored:before {
@@ -230,9 +232,7 @@ body{
   .arrow-colored-blue:before {
     border-right-color: blue; /* Cambia 'red' a tu color preferido */
   }
-  .arrow-colored-green:before {
-    border-right-color: rgb(0, 199, 0); /* Cambia 'red' a tu color preferido */
-  }
+  
   .no-before::before { /* Quita flecha de arriba */
     content: none;
   }
