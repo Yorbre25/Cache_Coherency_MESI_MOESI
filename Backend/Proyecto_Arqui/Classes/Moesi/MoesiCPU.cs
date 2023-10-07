@@ -90,10 +90,9 @@ namespace Proyecto_Arqui.Classes.Moesi
                 }
             }
         }
-
         public override CPU copy()
         {
-            var res = new MesiCPU(this.id);
+            var res = new MoesiCPU(7);
             for (int i = 0; i < this.cache.memory.Count; i++)
             {
                 res.cache.memory[i][0] = this.cache.memory[i][0];
@@ -108,7 +107,9 @@ namespace Proyecto_Arqui.Classes.Moesi
             res.instrucctions = new List<string>();
             if(this.instrucctions_executed.Count == 0)
             {
-                res.instrucctions.Add(this.instrucctions[0]);
+                var str = "";
+                str.Concat(str.Concat(this.instrucctions[0]));
+                res.instrucctions.Add(str);
             }
             else
             {
