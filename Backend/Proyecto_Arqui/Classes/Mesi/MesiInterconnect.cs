@@ -14,8 +14,7 @@ namespace Proyecto_Arqui.Classes.Mesi
         public int active_cpu = -1;
         public IDictionary<string, int> Report_counts;
         public MesiMemory RAM = MesiMemory.Instance;
-
-
+        private static List<Transaction_tracker> response;
 
         public List<MesiCPU_activity> CPU_lists;
 
@@ -30,8 +29,21 @@ namespace Proyecto_Arqui.Classes.Mesi
             Report_counts.Add("ReadReq", 0);
             Report_counts.Add("WriteReq", 0);
             Report_counts.Add("INV", 0);
+            response = new List<Transaction_tracker>();
+            response.Add(new Transaction_tracker());
+            response.Add(new Transaction_tracker());
+            response.Add(new Transaction_tracker());
+        }
+        
+        public static Transaction_tracker get_execution(int cpu_id)
+        {
+            return response[cpu_id];
         }
 
+        public static void set_execution(int cpu_id, Transaction_tracker exec)
+        {
+            response[cpu_id] = exec;
+        }
         public static MesiInterconnect Instance
         {
             get { return _instance; }
@@ -112,11 +124,6 @@ namespace Proyecto_Arqui.Classes.Mesi
             return res;
 
         }
-        public void pass_inst(string inst, int cpu_id, int reg, int address)
-        {
-            string inst_to_execute = inst + $" {reg} {address}";
-            CPU_lists[cpu_id].CPU.instruction_to_execute = inst_to_execute;
-        }
 
         public transaction write_to_memory(int address, int value, int cpu_id)
         {
@@ -172,6 +179,135 @@ namespace Proyecto_Arqui.Classes.Mesi
                 }
             }
             return tracker;
+        }
+
+        public Transaction_tracker run_all()
+        {
+            Report_counts = new Dictionary<string, int>();
+            Report_counts.Add("ReadReq", 0);
+            Report_counts.Add("WriteReq", 0);
+            Report_counts.Add("INV", 0);
+            var temp = new Transaction_tracker();
+            for (int i = 0; i < 60; i++)
+            {
+                CPU_lists[0].CPU.exec_inst = true;
+                CPU_lists[1].CPU.exec_inst = true;
+                CPU_lists[2].CPU.exec_inst = true;
+
+                Thread.Sleep(200);
+                temp.transactionList.AddRange(response[0].transactionList);
+                temp.transactionList.AddRange(response[1].transactionList);
+                temp.transactionList.AddRange(response[2].transactionList);
+
+                temp.cost += response[0].cost;
+                temp.cost += response[1].cost;
+                temp.cost += response[2].cost;
+
+                temp.com_types["pe"] += response[0].com_types["pe"];
+                temp.com_types["cache"] += response[0].com_types["cache"];
+                temp.com_types["memory"] += response[0].com_types["memory"];
+
+                temp.com_types["pe"] += response[1].com_types["pe"];
+                temp.com_types["cache"] += response[1].com_types["cache"];
+                temp.com_types["memory"] += response[1].com_types["memory"];
+
+                temp.com_types["pe"] += response[2].com_types["pe"];
+                temp.com_types["cache"] += response[2].com_types["cache"];
+                temp.com_types["memory"] += response[2].com_types["memory"];
+            }
+            temp.updateCost();
+            return temp;    
+        }
+
+        public Transaction_tracker run_all(bool cpu1, bool cpu2, bool cpu3)
+        {
+            var temp = new Transaction_tracker();
+            for (int i = 0; i < 60; i++)
+            {
+                if (cpu1)
+                {
+                    CPU_lists[0].CPU.exec_inst = true;
+                }
+                if (cpu2)
+                {
+                    CPU_lists[1].CPU.exec_inst = true;
+                }
+                if (cpu3)
+                {
+                    CPU_lists[1].CPU.exec_inst = true;
+                }
+                Thread.Sleep(200);
+                
+                if (cpu1)
+                {
+                    temp.transactionList.AddRange(response[0].transactionList);
+                    temp.cost += response[0].cost;
+                    temp.com_types["pe"] += response[0].com_types["pe"];
+                    temp.com_types["cache"] += response[0].com_types["cache"];
+                    temp.com_types["memory"] += response[0].com_types["memory"];
+                }
+
+                if (cpu2)
+                {
+                    temp.transactionList.AddRange(response[1].transactionList);
+                    temp.cost += response[1].cost;
+                    temp.com_types["pe"] += response[1].com_types["pe"];
+                    temp.com_types["cache"] += response[1].com_types["cache"];
+                    temp.com_types["memory"] += response[1].com_types["memory"];
+                }
+
+                if (cpu3)
+                {
+                    temp.transactionList.AddRange(response[2].transactionList);
+                    temp.cost += response[2].cost;
+                    temp.com_types["pe"] += response[2].com_types["pe"];
+                    temp.com_types["cache"] += response[2].com_types["cache"];
+                    temp.com_types["memory"] += response[2].com_types["memory"];
+                }
+
+            }
+            temp.updateCost();
+            return temp;
+        }
+
+        public Transaction_tracker run(bool cpu1, bool cpu2, bool cpu3)
+        {
+            var temp = new Transaction_tracker();
+            if (cpu1)
+            {
+                CPU_lists[0].CPU.exec_inst = true;
+                Thread.Sleep(200);
+                temp.transactionList.AddRange(response[0].transactionList);
+                temp.cost += response[0].cost;
+                temp.com_types["pe"] += response[0].com_types["pe"];
+                temp.com_types["cache"] += response[0].com_types["cache"];
+                temp.com_types["memory"] += response[0].com_types["memory"];
+            }
+
+            if (cpu2)
+            {
+                CPU_lists[1].CPU.exec_inst = true;
+                Thread.Sleep(200);
+                temp.transactionList.AddRange(response[1].transactionList);
+                temp.cost += response[1].cost;
+
+                temp.com_types["pe"] += response[1].com_types["pe"];
+                temp.com_types["cache"] += response[1].com_types["cache"];
+                temp.com_types["memory"] += response[1].com_types["memory"];
+            }
+
+            if (cpu3)
+            {
+                CPU_lists[0].CPU.exec_inst = true;
+                Thread.Sleep(200);
+                temp.transactionList.AddRange(response[2].transactionList);
+                temp.cost += response[2].cost;
+                temp.com_types["pe"] += response[2].com_types["pe"];
+                temp.com_types["cache"] += response[2].com_types["cache"];
+                temp.com_types["memory"] += response[2].com_types["memory"];
+            }
+            temp.updateCost();
+            return temp;
         }
     }
 }

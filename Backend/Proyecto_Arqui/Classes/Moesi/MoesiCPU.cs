@@ -1,10 +1,14 @@
-﻿using Proyecto_Arqui.Controllers;
+﻿using Proyecto_Arqui.Classes.Mesi;
+using Proyecto_Arqui.Controllers;
 using System.Diagnostics;
 
 namespace Proyecto_Arqui.Classes.Moesi
 {
     public class MoesiCPU:CPU
     {
+        public bool exec_inst;
+
+        public int id;
         public MoesiCPU(int _id)
         {
 
@@ -20,7 +24,7 @@ namespace Proyecto_Arqui.Classes.Moesi
         {
             var write = cache.write_to_address(address, list_register[reg], id);
             write.updateCost();
-            MoesiController.set_execution(id, write);
+            MoesiInterconnect.set_execution(id, write);
 
         }
         public Transaction_tracker read(int address, int reg)
@@ -28,7 +32,7 @@ namespace Proyecto_Arqui.Classes.Moesi
             var read = cache.get_from_address(address, id);
             read.updateCost();
             list_register[reg] = read.cache_resp[2];
-            MoesiController.set_execution(id, read);
+            MoesiInterconnect.set_execution(id, read);
             return read;
         }
         public void increment_reg(int reg)
@@ -59,7 +63,7 @@ namespace Proyecto_Arqui.Classes.Moesi
         {
             while (true)
             {
-                if (instruction_to_execute != null && MoesiInterconnect.Instance.inst_active == false && MoesiInterconnect.Instance.active_cpu == -1)
+                if (exec_inst != null && MoesiInterconnect.Instance.inst_active == false && MoesiInterconnect.Instance.active_cpu == -1)
                 {
                     lock(MoesiInterconnect.Instance)
                     {
@@ -67,38 +71,83 @@ namespace Proyecto_Arqui.Classes.Moesi
                         Console.WriteLine($"MoesiCPU:{id}, blocking Interconnect and executing");
                         MoesiInterconnect.Instance.inst_active = true;
                         MoesiInterconnect.Instance.active_cpu = id;
-                        execute_inst(instruction_to_execute);
-                        instruction_to_execute = null;
+                        if (instrucctions.Count <= 5)
+                        {
+                            reset();
+                        }
+                        execute_inst(instrucctions[0]);
+                        instrucctions_executed.Add(instrucctions[0]);
+                        instrucctions.RemoveAt(0);
+                        exec_inst = false;
                         MoesiInterconnect.Instance.active_cpu = -1;
                         MoesiInterconnect.Instance.inst_active = false;
                     }
                 }
                 else
                 {
-                    Debug.WriteLine($"MoesiCPU:{id}, sleeping");
-                    Console.WriteLine($"MoesiCPU:{id}, sleeping");
-                    TimeSpan interval = new TimeSpan(0, 0, 2);
+                    TimeSpan interval = new TimeSpan(0, 0, 0, 0, 1);
                     Thread.Sleep(interval);
                 }
             }
-
         }
 
         public override CPU copy()
         {
-            var res = new MoesiCPU(this.id);
-            for( int i =0; i< this.cache.memory.Count; i++)
+            var res = new MesiCPU(this.id);
+            for (int i = 0; i < this.cache.memory.Count; i++)
             {
                 res.cache.memory[i][0] = this.cache.memory[i][0];
                 res.cache.memory[i][1] = this.cache.memory[i][1];
                 res.cache.memory[i][2] = this.cache.memory[i][2];
             }
-
             for (int i = 0; i < this.list_register.Length; i++)
             {
                 res.list_register[i] = this.list_register[i];
             }
+
+            res.instrucctions = new List<string>();
+            if(this.instrucctions_executed.Count == 0)
+            {
+                res.instrucctions.Add(this.instrucctions[0]);
+            }
+            else
+            {
+                res.instrucctions.Add(this.instrucctions_executed[0]);
+            }
+            res.instrucctions.Add(this.instrucctions[0]);
+            res.instrucctions.Add(this.instrucctions[1]);
+            res.instrucctions.Add(this.instrucctions[2]);
+
+            res.instrucctions_executed = new List<string>();
             return res;
+        }
+        public void generate_inst()
+        {
+            this.instrucctions = new List<string>();
+            while (instrucctions.Count < 30)
+            {
+                Random rnd = new Random();
+                int inst = rnd.Next(0, 3);
+                //read
+                if (inst == 0)
+                {
+                    instrucctions.Add($"read {rnd.Next(0, 8)} {rnd.Next(0, 16)}");
+                }//write
+                else if (inst == 1)
+                {
+                    instrucctions.Add($"write {rnd.Next(0, 8)} {rnd.Next(0, 16)}");
+                }//inq
+                else
+                {
+                    instrucctions.Add($"increment {rnd.Next(0, 8)} {rnd.Next(0, 16)}");
+                }
+            }
+        }
+        public override void reset()
+        {
+            instrucctions = new List<string>();
+            instrucctions_executed = new List<string>();
+            generate_inst();
         }
     }
 }

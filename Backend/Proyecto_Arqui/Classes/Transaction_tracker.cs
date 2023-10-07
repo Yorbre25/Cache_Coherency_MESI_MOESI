@@ -4,9 +4,10 @@
     {
         public List<int> cache_resp { get; set; }
         public List<transaction> transactionList { get; set; }
-        public int cost { get; set; }
+        public double cost { get; set; }
 
         public IDictionary<string, int> com_types;
+
         public Transaction_tracker()
         {
             transactionList = new List<transaction>();
@@ -57,15 +58,15 @@
             cost = 0;
             if (com_types.ContainsKey("cache"))
             {
-                cost += com_types["cache"] * 1;
+                cost += com_types["cache"] * 1.1;
             }
             if (com_types.ContainsKey("pe"))
             {
-                cost += com_types["pe"] * 3;
+                cost += com_types["pe"] * 3.3;
             }
             if (com_types.ContainsKey("memory"))
             {
-                cost += com_types["memory"] * 243;
+                cost += com_types["memory"] * 62.9;
             }
         }
     }
