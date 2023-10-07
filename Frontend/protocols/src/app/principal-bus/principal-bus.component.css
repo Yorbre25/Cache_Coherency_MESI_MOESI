@@ -1,0 +1,61 @@
+@keyframes growAnimation {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%; /* Este es el ancho final de la flecha. Ajústalo según prefieras. */
+    }
+  }
+  
+  .arrow-bidirectional {
+    position: relative;
+    width: 100%; /* Cambia esto para ajustar el ancho */
+    height: 10px; /* Grosor de la flecha. Ajústalo según prefieras. */
+    background-color: black; /* Color de la flecha. Ajústalo según prefieras. */
+    margin: 20px;
+    
+  }
+  .arrow-grow {
+    animation: growAnimation 2s forwards;
+  }
+  
+  
+  .arrow-bidirectional:before,
+  .arrow-bidirectional:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+  }
+  
+  .arrow-bidirectional:before {
+    left: -10px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right: 20px solid black; /* Color de la punta de la flecha. Ajústalo según prefieras. */
+  }
+  
+  .arrow-bidirectional:after {
+    right: -10px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid black; /* Color de la punta de la flecha. Ajústalo según prefieras. */
+  }
+
+  
+
+ 
+
+  .arrow-colored {
+    background-color: red; /* Cambia a tu color preferido */
+  }
+  .arrow-colored:before,
+  .arrow-colored:after {
+    border-color: transparent transparent transparent red; /* Cambia 'red' a tu color preferido */
+  }
+  
+  .arrow-colored:before {
+    border-right-color: red; /* Cambia 'red' a tu color preferido */
+  }

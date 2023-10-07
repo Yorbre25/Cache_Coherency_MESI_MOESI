@@ -1,0 +1,38 @@
+@keyframes growAnimationUp {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%; /* Altura final de la flecha (100% del contenedor). */
+  }
+}
+
+.arrow-up {
+  position: relative;
+  width: 10px; /* Ancho de la línea de la flecha. */
+  height: 100%; /* Altura del contenedor de la flecha (100% del contenedor). */
+  background-color: black; /* Color de la línea de la flecha. */
+}
+
+.arrow-grow-up {
+  animation: growAnimationUp 2s forwards;
+}
+
+.arrow-up:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid black; /* Color de la punta de la flecha. */
+  top: 30px;
+}
+
+.arrow-container {
+  width: auto;
+  height: 100%;
+}

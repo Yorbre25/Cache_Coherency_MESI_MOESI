@@ -1,0 +1,243 @@
+
+body{
+    height: 100vh;
+    width: 100%;
+    
+    margin: 0px ;
+    
+}
+.ground{
+   
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: stretch;
+}
+
+.layer1,.layer2,.layer3,.layer4,.layer5{
+    width: 80%;
+    height: 25vh;
+
+    border-width: 12px;
+
+    border-style: solid;
+
+    
+}
+.layer1{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-around;
+}
+.layer3,.layer4{
+
+
+    
+    width: 60%;
+    height: 16vh;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
+
+}
+
+.layer5{
+    width: 60%;
+    height: 8vh;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-around;
+}
+
+.setupPanel{
+    height: 100%;
+    width: 20%;
+    background-color: red;
+}
+
+.memory{
+    height: 100%;
+    width: 40%;
+    background-color: red;
+}
+
+
+.cache{
+    width: 25%;
+    
+    
+    
+}
+
+.cpu{
+    width:15%;
+    max-height: 100%;
+    
+}
+
+.buses {
+    width: 90%;
+}
+.data-bus {
+    width: 90%;
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
+}
+
+.shared-bus{
+    width: 90%;
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
+}
+.address-bus {
+    width: 90%;
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: stretch;
+}
+.principal-bus {
+    width: 90%;
+    
+    
+}
+
+.checkPanel{
+    width: 100%;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-around;
+
+}
+
+
+.secondary-buses{
+    margin: 30px;
+}
+
+/*app-principal-bus::ng-deep arrow-bidirectional:before {
+    content: none;
+} */
+
+
+
+
+
+/* Methods for Secondary Arrows */
+
+@keyframes growAnimation {
+    from {
+      height: 0;
+    }
+    to {
+    height: 100%; /* Este es el ancho final de la flecha. Ajústalo según prefieras. */
+    }
+  }
+  
+  .arrow-bidirectional {
+    position: relative;
+    width: 10px; /* Cambia esto para ajustar el ancho */
+    height: 100%; /* Grosor de la flecha. Ajústalo según prefieras. */
+    background-color: black; /* Color de la flecha. Ajústalo según prefieras. */
+    margin: 20px;
+    
+  }
+  .arrow-grow {
+    animation: growAnimation 2s forwards;
+  }
+  
+  
+  .arrow-bidirectional:before,
+  .arrow-bidirectional:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+  }
+  
+  .arrow-bidirectional:before {
+    top: -10px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid black; /* Color de la punta de la flecha. Ajústalo según prefieras. */
+  }
+  
+  .arrow-bidirectional:after {
+    bottom: -10px;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid black; /* Color de la punta de la flecha. Ajústalo según prefieras. */
+  }
+
+  .arrow-colored {
+    background-color: red; /* Cambia a tu color preferido */
+  }
+  .arrow-colored-blue {
+    background-color: blue; /* Cambia a tu color preferido */
+  }
+  .arrow-colored-green {
+    background-color: greenyellow; /* Cambia a tu color preferido */
+  }
+
+  .arrow-colored:before,
+  .arrow-colored:after {
+    border-color: red transparent transparent transparent; /* Cambia 'red' a tu color preferido */
+  }
+
+  .arrow-colored-blue:before,
+  .arrow-colored-blue:after {
+    border-color: blue transparent transparent transparent; /* Cambia 'red' a tu color preferido */
+  }
+
+  .arrow-colored-green:before{
+    border-color:    transparent transparent greenyellow transparent ; 
+  }
+  .arrow-colored-green:after {
+    border-color:  greenyellow transparent transparent transparent ; /* Cambia 'red' a tu color preferido */
+  }
+  
+  .arrow-colored:before {
+    border-right-color: red; /* Cambia 'red' a tu color preferido */
+  }
+
+  .arrow-colored-blue:before {
+    border-right-color: blue; /* Cambia 'red' a tu color preferido */
+  }
+  
+  .no-before::before { /* Quita flecha de arriba */
+    content: none;
+  }
+  
+  .no-after::after {
+    content: none;
+  }
+
