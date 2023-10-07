@@ -15,8 +15,10 @@ namespace Proyecto_Arqui.Classes.Moesi
             list_register = new int[8];
             cache = new MoesiCache();
             id = _id;
+            
             instrucctions = new List<string>();
             instrucctions_executed = new List<string>();
+            generate_inst();
             Thread thread = new Thread(new ThreadStart(check_interconnect));
             thread.Start();
         }
@@ -63,7 +65,7 @@ namespace Proyecto_Arqui.Classes.Moesi
         {
             while (true)
             {
-                if (exec_inst != null && MoesiInterconnect.Instance.inst_active == false && MoesiInterconnect.Instance.active_cpu == -1)
+                if (exec_inst != false && MoesiInterconnect.Instance.inst_active == false && MoesiInterconnect.Instance.active_cpu == -1)
                 {
                     lock(MoesiInterconnect.Instance)
                     {
