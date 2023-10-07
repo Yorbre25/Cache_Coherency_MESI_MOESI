@@ -14,10 +14,16 @@ import { Element } from './memory/memory.component';
 import { NetworkService } from './services/network.service';
 import { STEP_REQUEST } from 'src/interfaces/request';
 
+
+interface protocol {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   cache1Content:cacheLine[]=[];
@@ -43,6 +49,13 @@ export class AppComponent {
   currentReadReq={cache:0,row:0}
   markedColor:string="#00ff08";
   unmarkedColor:string="#ffffff";
+
+  protocols: protocol[] = [
+    {value: 'MESI', viewValue: 'Mesi'},
+    {value: 'MOESI', viewValue: 'Moesi'},
+  ];
+
+  selectedProtocol = ''
 
   
 
@@ -143,7 +156,7 @@ export class AppComponent {
       
       
     }
-    this.network.get_request("MESI/step",step).subscribe(
+    this.network.get_request(this.selectedProtocol+"/step",step).subscribe(
       (response:stepExecutionReport)=>{
         console.log(response)
         console.log(response.Transition_request)
@@ -163,9 +176,37 @@ export class AppComponent {
     
   }
 
+  start(){
+    var counter = 15
+    while(counter >= 0){
+      let step:STEP_REQUEST={
+        CPU_1:Number(this.cache1Checkbox),
+        CPU_2:Number(this.cache2Checkbox),
+        CPU_3:Number(this.cache3Checkbox),
+        
+        
+      }
+      this.network.get_request(this.selectedProtocol+"/step",step).subscribe(
+        (response:stepExecutionReport)=>{
+          console.log(response)
+          this.handleTransactionBundle(response.Transition_request);
+          console.log(response.initial_CPU_list[0].instrucctions)
+          this.InstructionContent1=response.initial_CPU_list[0].instrucctions;
+          this.InstructionContent1=[...this.InstructionContent1]
+          console.log(this.InstructionContent1)
+          this.InstructionContent2=response.initial_CPU_list[1].instrucctions;
+          this.InstructionContent2=[...this.InstructionContent2]
+          this.InstructionContent3=response.initial_CPU_list[2].instrucctions;
+          this.InstructionContent3=[...this.InstructionContent3]
+        }
+      )
+      counter --
+    }
+  }
 
-
-  
+  sisi(){
+    console.log(this.selectedProtocol)
+  }
   
   handleTransaction(tran:transition){
     let state=stateDict[tran.Op]
