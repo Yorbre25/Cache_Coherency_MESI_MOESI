@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PrincipalBusComponent } from './principal-bus/principal-bus.component';
 
 const routes: Routes = [];
 

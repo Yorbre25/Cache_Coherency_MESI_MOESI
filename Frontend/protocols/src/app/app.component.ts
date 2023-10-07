@@ -139,6 +139,8 @@ export class AppComponent {
   
   handleTransaction(tran:transition){
     let state=stateDict[tran.Op]
+    console.log(tran)
+    this.handleTransactionBuses(tran)
     
     if(validStates.some(x=> x===state)){ //true change of state MOESI
       this.changeData(tran.Cpu_num,tran.Pos_cache,tran.Op,tran.Address,tran.Value,state)
@@ -177,6 +179,22 @@ export class AppComponent {
 
    
     
+  }
+
+  handleTransactionBuses(tran:transition){
+    if(tran.Op == "SHARED"){
+      this.isArrowColored10 = true;
+      this.isArrowColored9 = true;
+      this.isArrowColored11 = true;
+    } else{
+      this.isArrowColored10 = false;
+      this.isArrowColored9 = false;
+      this.isArrowColored11 = false;
+    }
+    //this.currentReadReq
+    if(tran.Op == ""){
+
+    }
   }
 
   highlight(cache:number,row:number):void{
@@ -234,9 +252,61 @@ export class AppComponent {
           this.cache3Content=[...this.cache3Content];
           break
       }
+  }
+
+  // Code for 
+
+  isArrowAnimating: boolean = false;
+  animateArrow(): void {
+    this.isArrowAnimating = true;
+
+    // Opcional: si quieres que la animación se pueda ejecutar de nuevo después de completarse,
+    // puedes resetear isArrowAnimating después de la duración de la animación.
+    setTimeout(() => {
+      this.isArrowAnimating = false;
+    }, 2000); // 2000ms (2s) es la duración de la animación. Asegúrate de ajustar este valor si cambias la duración en el CSS.
+  }
+  
+  isArrowColored1 = false;
+  isArrowColored2 = false;
+  isArrowColored3 = false;
+  isArrowColored4 = false;
+  isArrowColored5 = false;
+  isArrowColored6 = false;
+  isArrowColored7 = false;
+  isArrowColored8 = false;
+  isArrowColored9 = false;
+  isArrowColored10 = false;
+  isArrowColored11 = false;
+  isArrowColored12 = false;
+  isArrowColored13 = false;
+  isArrowColored14 = false;
+  isArrowColored15 = false;
+  isArrowColored16 = false;
+  isArrowColored17 = false;
+  
+  buttonClickEject(){
     
     
 
+    this.isArrowColored1 = !this.isArrowColored1;
+    this.isArrowColored2 = !this.isArrowColored2;
+    this.isArrowColored3 = !this.isArrowColored3;
+    this.isArrowColored4 = !this.isArrowColored4;
+    this.isArrowColored5 = !this.isArrowColored5;
+    this.isArrowColored6 = !this.isArrowColored6;
+    this.isArrowColored7 = !this.isArrowColored7;
+    this.isArrowColored8 = !this.isArrowColored8;
+    this.isArrowColored9 = !this.isArrowColored9;
+    this.isArrowColored10 = !this.isArrowColored10;
+    this.isArrowColored11 = !this.isArrowColored11;
+    this.isArrowColored12 = !this.isArrowColored12;
+    this.isArrowColored13 = !this.isArrowColored13;
+    this.isArrowColored14 = !this.isArrowColored14;
+    this.isArrowColored15 = !this.isArrowColored15;
+    this.isArrowColored16 = !this.isArrowColored16;
+    this.isArrowColored17 = !this.isArrowColored17;
+    
   }
 
 
