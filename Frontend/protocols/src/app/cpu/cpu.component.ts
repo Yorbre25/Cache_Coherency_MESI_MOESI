@@ -1,4 +1,4 @@
-import { Component,Input, SimpleChange } from '@angular/core';
+import { Component,Input, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -16,8 +16,11 @@ export class CpuComponent {
     
     this.InstructionsDataSource.data=this.instructions;
   }
-  ngOnChanges(change:SimpleChange){
-    this.InstructionsDataSource.data=change.currentValue;
+  ngOnChanges(change:SimpleChanges){
+    this.instructions=change['instructions'].currentValue;;
+    this.instructions=[...this.instructions];
+    this.InstructionsDataSource.data=this.instructions;
+    this.InstructionsDataSource.data=[...this.InstructionsDataSource.data]
 
   }
 }

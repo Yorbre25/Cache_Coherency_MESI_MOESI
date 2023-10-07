@@ -2,14 +2,17 @@ import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { cacheLine } from 'src/interfaces/cacheRow';
 
-import { transition } from 'src/interfaces/transitionRequest';
+import { stepExecutionReport, transition } from 'src/interfaces/transitionRequest';
 import { stateDict,validStates,readRequest,respRequest } from 'src/interfaces/stateDictionary';
 import { timer } from 'rxjs';
 
 import { Element } from './memory/memory.component';
 
 
-import{exampleTrans} from 'src/app/examples/firstExample'
+
+
+import { NetworkService } from './services/network.service';
+import { STEP_REQUEST } from 'src/interfaces/request';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +23,11 @@ export class AppComponent {
   cache1Content:cacheLine[]=[];
   cache2Content:cacheLine[]=[];
   cache3Content:cacheLine[]=[];
-  InstructionContent:String[]=[];
+  InstructionContent1:String[]=[];
+  InstructionContent2:String[]=[];
+  InstructionContent3:String[]=[];
+  
+  
   memoryContent:number[]=[];
   memoryDistributed:Element[]=[];
 
@@ -37,82 +44,85 @@ export class AppComponent {
   markedColor:string="#00ff08";
   unmarkedColor:string="#ffffff";
 
-  //sleep = (ms:number) => new Promise(r => setTimeout(r, ms));
+  
 
   time:number=1000;
 
-  constructor(){}
+  constructor(private network:NetworkService){}
   
   ngOnInit():void{
     this.cache1Content=[
-      {state:"E",
-      address:2,
-      value:14  
+      {state:"I",
+      address:0,
+      value:0  
     },
     {state:"I",
-      address:14,
-      value:9  
+      address:0,
+      value:0  
     },
-    {state:"M",
-      address:11,
-      value:99  
+    {state:"I",
+      address:0,
+      value:0  
     },
-    {state:"E",
-      address:3,
-      value:5  
+    {state:"I",
+      address:0,
+      value:0  
     }
     ];
     this.cache2Content=[
-      {state:"E",
-      address:2,
-      value:14  
+      {state:"I",
+      address:0,
+      value:0  
     },
     {state:"I",
-      address:14,
-      value:9  
+      address:0,
+      value:0  
     },
-    {state:"M",
-      address:11,
-      value:99  
+    {state:"I",
+      address:0,
+      value:0  
     },
-    {state:"E",
-      address:3,
-      value:5  
+    {state:"I",
+      address:0,
+      value:0  
     }
     ];
 
     this.cache3Content=[
-      {state:"E",
-      address:2,
-      value:14  
+      {state:"I",
+      address:0,
+      value:0  
     },
     {state:"I",
-      address:14,
-      value:9  
+      address:0,
+      value:0  
     },
-    {state:"M",
-      address:11,
-      value:99  
+    {state:"I",
+      address:0,
+      value:0  
     },
-    {state:"E",
-      address:3,
-      value:5  
+    {state:"I",
+      address:0,
+      value:0  
     }
     ];
-    this.InstructionContent=["Inc r3 r4","add r5 r5","read r3 45","read r2 r5"]
+    this.InstructionContent1=["NOP","NOP","NOP","NOP"]
+    this.InstructionContent2=["NOP","NOP","NOP","NOP"]
+    this.InstructionContent3=["NOP","NOP","NOP","NOP"]
     this.cache1Colors=["#ffffff", "#ffffff", "#ffffff","#ffffff" ];
     this.cache2Colors=["#ffffff", "#ffffff", "#ffffff","#ffffff" ];
     this.cache3Colors=["#ffffff", "#ffffff", "#ffffff","#ffffff" ];
-    this.memoryContent=[23,44,12,33,
-      51,54,90,33,
-      32,77,98,100,
-      123,44,65,43
+    this.memoryContent=[
+      0,0,0,0,
+      0,0,0,0,
+      0,0,0,0,
+      0,0,0,0
     ]
     this.memoryDistributed=[
-      { col1: 'A1', col2: 'B1', col3: 'C1', col4: 'D1' },
-      { col1: 'A2', col2: 'B2', col3: 'C2', col4: 'D2' },
-      { col1: 'A3', col2: 'B3', col3: 'C3', col4: 'D3' },
-      { col1: 'A4', col2: 'B4', col3: 'C4', col4: 'D4' },
+      { col1: '0 : 0', col2: '0 : 0', col3: '0 : 0', col4: '0 : 0' },
+      { col1: '0 : 0', col2: '0 : 0', col3: '0 : 0', col4: '0 : 0' },
+      { col1: '0 : 0', col2: '0 : 0', col3: '0 : 0', col4: '0 : 0' },
+      { col1: '0 : 0', col2: '0 : 0', col3: '0 : 0', col4: '0 : 0' }
     ];
     this.manageList();
   
@@ -124,14 +134,29 @@ export class AppComponent {
   }
 
   buttonClick(){
-    console.log(this.cache1Checkbox);
-    console.log(this.cache2Checkbox);
-    console.log(this.cache3Checkbox);
-    
 
-    //aqui tendria que ir la llamada para el proceso
+    let step:STEP_REQUEST={
+      CPU_1:Number(this.cache1Checkbox),
+      CPU_2:Number(this.cache2Checkbox),
+      CPU_3:Number(this.cache3Checkbox),
+      
+      
+    }
+    this.network.get_request("MESI/step",step).subscribe(
+      (response:stepExecutionReport)=>{
+        console.log(response)
+        this.handleTransactionBundle(response.Transition_request);
+        console.log(response.initial_CPU_list[0].instrucctions)
+        this.InstructionContent1=response.initial_CPU_list[0].instrucctions;
+        this.InstructionContent1=[...this.InstructionContent1]
+        console.log(this.InstructionContent1)
+        this.InstructionContent2=response.initial_CPU_list[1].instrucctions;
+        this.InstructionContent2=[...this.InstructionContent2]
+        this.InstructionContent3=response.initial_CPU_list[2].instrucctions;
+        this.InstructionContent3=[...this.InstructionContent3]
+      }
+    )
     
-    this.handleTransactionBundle(exampleTrans);
     
   }
 
