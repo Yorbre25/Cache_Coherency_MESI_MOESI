@@ -238,3 +238,13 @@ body{
     content: none;
   }
 
+
+/* */
+
+.setupPanel{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .btn1{ margin-bottom: 18px;}
+}

@@ -9,7 +9,17 @@
       </div>
 
       <div class="setupPanel">
+        <button class="btn1" >Start</button>
+        <button class="btn1">Restart</button>
 
+          <mat-form-field>
+            <mat-label>Protocolo</mat-label>
+            <mat-select [(value)]="selectedProtocol" (click)="sisi()">
+              <mat-option *ngFor="let p of protocols" [value]="p.value">
+                {{p.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
       </div>
       
       
