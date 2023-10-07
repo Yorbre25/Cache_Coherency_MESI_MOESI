@@ -142,10 +142,10 @@ export class AppComponent {
       
       
     }
-    this.network.get_request("MESI/step",step).subscribe(
+    this.network.get_request("/MESI/step",step).subscribe(
       (response:stepExecutionReport)=>{
         console.log(response)
-        this.handleTransactionBundle(response.Transition_request);
+        console.log(response.Transition_request)
         console.log(response.initial_CPU_list[0].instrucctions)
         this.InstructionContent1=response.initial_CPU_list[0].instrucctions;
         this.InstructionContent1=[...this.InstructionContent1]
@@ -154,6 +154,8 @@ export class AppComponent {
         this.InstructionContent2=[...this.InstructionContent2]
         this.InstructionContent3=response.initial_CPU_list[2].instrucctions;
         this.InstructionContent3=[...this.InstructionContent3]
+
+        this.handleTransactionBundle(response.Transition_request);
       }
     )
     
@@ -189,7 +191,7 @@ export class AppComponent {
   }
 
   handleTransactionBundle(transitions:transition[]):void{
-
+    
     if(transitions.length<=0){
       timer(this.time).subscribe(()=>{
         this.setDefaultColor();
