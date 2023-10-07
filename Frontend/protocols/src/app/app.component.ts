@@ -143,7 +143,7 @@ export class AppComponent {
       
       
     }
-    this.network.get_request("/MESI/step",step).subscribe(
+    this.network.get_request("MESI/step",step).subscribe(
       (response:stepExecutionReport)=>{
         console.log(response)
         console.log(response.Transition_request)
