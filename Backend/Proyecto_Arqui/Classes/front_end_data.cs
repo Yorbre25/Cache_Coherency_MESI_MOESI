@@ -18,6 +18,12 @@ namespace Proyecto_Arqui.Classes
         public int[] final_Ram { get; set; }
 
         public List<CPU> final_CPU_list { get; set; }
+
+        public List<string> inst_cpu1 { get; set; }
+        public List<string> inst_cpu2 { get; set; }
+        public List<string> inst_cpu3 { get; set; }
+
+
         public front_end_data(MoesiInterconnect moesi)
         {
             initial_Ram = new int[16];

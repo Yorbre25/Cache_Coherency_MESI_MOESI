@@ -18,8 +18,8 @@ namespace Proyecto_Arqui.Classes.Mesi
             memory.Add(new List<int>(new int[] { 3, 0, 0 }));
             memory.Add(new List<int>(new int[] { 3, 0, 0 }));
             memory.Add(new List<int>(new int[] { 3, 0, 0 }));
-
         }
+
         public override Transaction_tracker get_from_address(int address, int cpu_id)
         {
             List<int> cache_info;
