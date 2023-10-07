@@ -1,0 +1,164 @@
+<body>
+  <div class="ground">
+    <div class="layer1">
+      <div style="width: 20%;"></div>
+
+      <div class="memory" >
+        <app-memory [Elements]="memoryDistributed"></app-memory>
+
+      </div>
+
+      <div class="setupPanel">
+
+      </div>
+      
+      
+      
+    </div>
+
+    <div class="layer2">
+      
+    </div>
+
+    <div class="buses">
+
+      <!-- ------------------------------      DATA BUS     ---------------------------------->
+    <div class="data-bus" style="margin: 60px;">
+
+      <div class="principal-bus" style="position: absolute; text-align: justify;">
+        Data Bus
+        <app-principal-bus></app-principal-bus>
+      </div>
+
+      <div class="secondary-buses" style="z-index: 100;">
+
+        <div class="secondary-buses-down">
+          <div class="arrow-bidirectional" (click)="isArrowColored1=!isArrowColored1" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-blue': isArrowColored1, 'no-before': true}" style="position: absolute; right: 40%; height: 15%; margin-top: -8%;">
+          </div>
+
+          <div class="arrow-bidirectional" (click)="isArrowColored2=!isArrowColored2" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-blue': isArrowColored2, 'no-before': true}" style="position: absolute; right: 65%; height: 25%; margin-top: 0.5%;">
+          </div>
+          
+          <div class="arrow-bidirectional" (click)="isArrowColored3=!isArrowColored3" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-blue': isArrowColored3, 'no-before': true}" style="position: absolute; right: 45%; height: 25%; margin-top: 0.5%;">
+          </div>
+
+          <div class="arrow-bidirectional" (click)="isArrowColored4=!isArrowColored4" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-blue': isArrowColored4, 'no-before': true}" style="position: absolute;  right: 25%; height: 25%; margin-top: 0.5%;">
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- ------------------------------      ADDRESS BUS     ---------------------------------->
+    <div class="address-bus" style="margin: 60px;">
+
+      <div class="principal-bus" style="position: absolute; text-align: justify;">
+        Address Bus
+        <app-principal-bus></app-principal-bus>
+      </div>
+
+      <div class="secondary-buses" style="z-index: 100;">
+        <div class="secondary-buses-up" >
+          <div class="arrow-bidirectional" (click)="isArrowColored5=!isArrowColored5" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-green': isArrowColored5, 'no-after': true}" style="position: absolute;  right: 55%; height: 25%; margin-top: -12%;">
+          </div>
+        </div>
+
+        <div class="secondary-buses-down">
+
+          <div class="arrow-bidirectional" (click)="isArrowColored6=!isArrowColored6" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-green': isArrowColored6, 'no-before': true}" style="position: absolute; right: 70%; height: 15%; margin-top: 1%;">
+          </div>
+          
+          <div class="arrow-bidirectional" (click)="isArrowColored7=!isArrowColored7" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-green': isArrowColored7, 'no-before': true}" style="position: absolute;right: 50%; height: 15%; margin-top:1%; ">
+          </div>
+
+          <div class="arrow-bidirectional" (click)="isArrowColored8=!isArrowColored8" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored-green': isArrowColored8, 'no-before': true}" style="position: absolute;right: 30%; height: 15%; margin-top: 1%; ">
+          </div>
+
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- ------------------------------      SHARED BUS     ---------------------------------->
+    <div class="shared-bus" style="margin: 60px;">
+
+      <div class="principal-bus" style="position: absolute; text-align: justify;">
+        Shared
+        <app-principal-bus></app-principal-bus>
+      </div>
+
+      <div class="secondary-buses">
+
+        <div class="secondary-buses-down">
+
+          <div class="arrow-bidirectional" (click)="isArrowColored9=!isArrowColored9" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored': isArrowColored9, 'no-before': true}" style="position: absolute;  right: 75%; height: 5.4%; margin-top: 1%; ">
+          </div>
+          
+          <div class="arrow-bidirectional" (click)="isArrowColored10=!isArrowColored10" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored': isArrowColored10, 'no-before': true}" style="position: absolute;  right: 55%; height: 5.4%; margin-top: 1%; ">
+          </div>
+
+          <div class="arrow-bidirectional" (click)="isArrowColored11=!isArrowColored11" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored': isArrowColored11, 'no-before': true}" style="position: absolute;  right: 35%; height: 5.4%; margin-top: 1%; ">
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+
+    <div class="layer3">
+      <div class="cache">
+        <app-cache [cacheContent]="cache1Content" [rowColors]="cache1Colors"></app-cache>
+        
+      </div>
+      <div class="cache">
+        <app-cache [cacheContent]="cache2Content" [rowColors]="cache2Colors"></app-cache>
+        
+      </div>
+      <div class="cache">
+        <app-cache [cacheContent]="cache3Content" [rowColors]="cache3Colors"></app-cache>
+        
+      </div>
+      
+    </div>
+    <div class="layer4">
+      <div class="cpu">
+        <app-cpu [instructions]="InstructionContent">
+
+        </app-cpu>
+
+      </div>
+
+      <div class="cpu">
+        <app-cpu [instructions]="InstructionContent">
+
+        </app-cpu>
+
+      </div>
+
+      <div class="cpu">
+        <app-cpu [instructions]="InstructionContent">
+
+        </app-cpu>
+
+      </div>
+
+    </div>
+
+    
+    <div class="layer5">
+      <div class="checkPanel">
+        <mat-checkbox class="example-margin" [(ngModel)]="cache1Checkbox" ></mat-checkbox>
+        <mat-checkbox class="example-margin" [(ngModel)]="cache2Checkbox" ></mat-checkbox>
+        <mat-checkbox class="example-margin" [(ngModel)]="cache3Checkbox"></mat-checkbox>
+
+      </div>
+      
+      <button mat-raised-button color="primary" (click)="buttonClick()">Click</button>
+      <button mat-raised-button (click)="buttonClickEject()">Eject</button>
+      
+
+    </div>
+
+  </div>
+</body>
