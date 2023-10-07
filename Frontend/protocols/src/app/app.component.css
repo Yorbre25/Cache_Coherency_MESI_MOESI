@@ -208,12 +208,16 @@ body{
     background-color: greenyellow; /* Cambia a tu color preferido */
   }
 
-  .arrow-colored:before,
+  .arrow-colored:before{
+    border-color:    transparent transparent red transparent ; 
+  }
   .arrow-colored:after {
     border-color: red transparent transparent transparent; /* Cambia 'red' a tu color preferido */
   }
 
-  .arrow-colored-blue:before,
+  .arrow-colored-blue:before{
+    border-color:    transparent transparent blue transparent ; 
+  }
   .arrow-colored-blue:after {
     border-color: blue transparent transparent transparent; /* Cambia 'red' a tu color preferido */
   }
@@ -225,13 +229,6 @@ body{
     border-color:  greenyellow transparent transparent transparent ; /* Cambia 'red' a tu color preferido */
   }
   
-  .arrow-colored:before {
-    border-right-color: red; /* Cambia 'red' a tu color preferido */
-  }
-
-  .arrow-colored-blue:before {
-    border-right-color: blue; /* Cambia 'red' a tu color preferido */
-  }
   
   .no-before::before { /* Quita flecha de arriba */
     content: none;
