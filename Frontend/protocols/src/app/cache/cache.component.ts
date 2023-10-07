@@ -24,7 +24,7 @@ export class CacheComponent {
     
     try{
       this.cache.data=change['cacheContent'].currentValue;
-    this.cache.data=[...this.cache.data];
+      this.cache.data=[...this.cache.data];
     }
     catch(error){}
     

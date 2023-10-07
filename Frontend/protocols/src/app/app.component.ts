@@ -6,6 +6,8 @@ import { transition } from 'src/interfaces/transitionRequest';
 import { stateDict,validStates,readRequest,respRequest } from 'src/interfaces/stateDictionary';
 import { timer } from 'rxjs';
 
+import { Element } from './memory/memory.component';
+
 
 import{exampleTrans} from 'src/app/examples/firstExample'
 
@@ -19,6 +21,8 @@ export class AppComponent {
   cache2Content:cacheLine[]=[];
   cache3Content:cacheLine[]=[];
   InstructionContent:String[]=[];
+  memoryContent:number[]=[];
+  memoryDistributed:Element[]=[];
 
   cache1Checkbox:boolean=false;
   cache2Checkbox:boolean=false;
@@ -32,6 +36,7 @@ export class AppComponent {
   currentReadReq={cache:0,row:0}
   markedColor:string="#00ff08";
   unmarkedColor:string="#ffffff";
+
   //sleep = (ms:number) => new Promise(r => setTimeout(r, ms));
 
   time:number=1000;
@@ -98,7 +103,18 @@ export class AppComponent {
     this.cache1Colors=["#ffffff", "#ffffff", "#ffffff","#ffffff" ];
     this.cache2Colors=["#ffffff", "#ffffff", "#ffffff","#ffffff" ];
     this.cache3Colors=["#ffffff", "#ffffff", "#ffffff","#ffffff" ];
-  
+    this.memoryContent=[23,44,12,33,
+      51,54,90,33,
+      32,77,98,100,
+      123,44,65,43
+    ]
+    this.memoryDistributed=[
+      { col1: 'A1', col2: 'B1', col3: 'C1', col4: 'D1' },
+      { col1: 'A2', col2: 'B2', col3: 'C2', col4: 'D2' },
+      { col1: 'A3', col2: 'B3', col3: 'C3', col4: 'D3' },
+      { col1: 'A4', col2: 'B4', col3: 'C4', col4: 'D4' },
+    ];
+    this.manageList();
   
   }
 
@@ -111,8 +127,10 @@ export class AppComponent {
     console.log(this.cache1Checkbox);
     console.log(this.cache2Checkbox);
     console.log(this.cache3Checkbox);
+    
 
     //aqui tendria que ir la llamada para el proceso
+    
     this.handleTransactionBundle(exampleTrans);
     
   }
@@ -218,6 +236,32 @@ export class AppComponent {
       }
     
     
+
+  }
+
+
+  manageList(){
+    console.log("Llegue a manage list")
+    try{
+      if( this.memoryContent.length==0)return
+      
+      var i:number=0;
+      while(i<16){
+        console.log(i);
+        var element:Element={
+          col1:i.toString()+" : "+this.memoryContent[i].toString(),
+          col2:(i+1).toString()+" : "+this.memoryContent[i+1].toString(),
+          col3:(i+2).toString()+" : "+this.memoryContent[i+2].toString(),
+          col4:(i+3).toString()+" : "+this.memoryContent[i+3].toString()
+        }
+        this.memoryDistributed[Math.floor(i/4)]=element;
+        i+=4
+
+        this.memoryDistributed=[...this.memoryDistributed]
+        console.log(this.memoryDistributed)
+    }
+    }
+    catch(error){console.log(error)}
 
   }
 
