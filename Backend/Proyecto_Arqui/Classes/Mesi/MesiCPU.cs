@@ -133,16 +133,23 @@ namespace Proyecto_Arqui.Classes.Mesi
             }
 
             res.instrucctions = new List<string>();
-            res.instrucctions.Add(this.instrucctions[0]);
-            res.instrucctions.Add(this.instrucctions[1]);
-            res.instrucctions.Add(this.instrucctions[2]);
-            res.instrucctions.Add(this.instrucctions[3]);
+            if (this.instrucctions_executed.Count == 0)
+            {
+                res.instrucctions.Add(this.instrucctions[0]);
+                res.instrucctions.Add(this.instrucctions[1]);
+                res.instrucctions.Add(this.instrucctions[2]);
+                res.instrucctions.Add(this.instrucctions[3]);
+            }
+            else
+            {
+                res.instrucctions.Add(new string(this.instrucctions_executed[this.instrucctions_executed.Count-1]));
+                res.instrucctions.Add(this.instrucctions[0]);
+                res.instrucctions.Add(this.instrucctions[1]);
+                res.instrucctions.Add(this.instrucctions[2]);
+            }
+            
 
             res.instrucctions_executed = new List<string>();
-            for (int i = 0; i < this.instrucctions_executed.Count; i++)
-            {
-                res.instrucctions_executed.Add(instrucctions_executed[i]);
-            }
             return res;
         }
 

@@ -94,7 +94,7 @@ namespace Proyecto_Arqui.Classes.Moesi
 
         public override CPU copy()
         {
-            var res = new MoesiCPU(this.id);
+            var res = new MesiCPU(this.id);
             for (int i = 0; i < this.cache.memory.Count; i++)
             {
                 res.cache.memory[i][0] = this.cache.memory[i][0];
@@ -107,16 +107,19 @@ namespace Proyecto_Arqui.Classes.Moesi
             }
 
             res.instrucctions = new List<string>();
-            instrucctions.Add(this.instrucctions[0]);
-            instrucctions.Add(this.instrucctions[1]);
-            instrucctions.Add(this.instrucctions[2]);
-            instrucctions.Add(this.instrucctions[3]);
+            if(this.instrucctions_executed.Count == 0)
+            {
+                res.instrucctions.Add(this.instrucctions[0]);
+            }
+            else
+            {
+                res.instrucctions.Add(this.instrucctions_executed[0]);
+            }
+            res.instrucctions.Add(this.instrucctions[0]);
+            res.instrucctions.Add(this.instrucctions[1]);
+            res.instrucctions.Add(this.instrucctions[2]);
 
             res.instrucctions_executed = new List<string>();
-            for (int i = 0; i < this.instrucctions_executed.Count; i++)
-            {
-                res.instrucctions_executed.Add(instrucctions_executed[0]);
-            }
             return res;
         }
         public void generate_inst()
