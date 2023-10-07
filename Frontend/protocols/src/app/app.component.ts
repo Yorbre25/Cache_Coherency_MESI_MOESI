@@ -163,6 +163,8 @@ export class AppComponent {
     
   }
 
+
+
   
   
   handleTransaction(tran:transition){
