@@ -12,6 +12,9 @@ import { PrincipalBusComponent } from './principal-bus/principal-bus.component';
 import { SecondaryBusComponent } from './secondary-bus/secondary-bus.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MemoryComponent } from './memory/memory.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import {MatButtonModule} from '@angular/material/button';
     CacheComponent,
     CpuComponent,
     PrincipalBusComponent,
-    SecondaryBusComponent
+    SecondaryBusComponent,
+    MemoryComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +32,9 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule, 
     MatTableModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

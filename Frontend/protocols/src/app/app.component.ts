@@ -20,6 +20,10 @@ export class AppComponent {
   cache3Content:cacheLine[]=[];
   InstructionContent:String[]=[];
 
+  cache1Checkbox:boolean=false;
+  cache2Checkbox:boolean=false;
+  cache3Checkbox:boolean=false;
+
   cache1Colors:string[]=[];
   cache2Colors:string[]=[];
   cache3Colors:string[]=[];
@@ -104,7 +108,11 @@ export class AppComponent {
   }
 
   buttonClick(){
-    
+    console.log(this.cache1Checkbox);
+    console.log(this.cache2Checkbox);
+    console.log(this.cache3Checkbox);
+
+    //aqui tendria que ir la llamada para el proceso
     this.handleTransactionBundle(exampleTrans);
     
   }

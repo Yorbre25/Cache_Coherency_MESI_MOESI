@@ -29,7 +29,15 @@ body{
 
     
 }
-.layer3,.layer4,.layer5{
+.layer1{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-around;
+}
+.layer3,.layer4{
 
 
     
@@ -45,8 +53,28 @@ body{
 }
 
 .layer5{
-    height: 7vh;
+    width: 60%;
+    height: 8vh;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-around;
 }
+
+.setupPanel{
+    height: 100%;
+    width: 20%;
+    background-color: red;
+}
+
+.memory{
+    height: 100%;
+    width: 40%;
+    background-color: red;
+}
+
 
 .cache{
     width: 25%;
@@ -94,6 +122,18 @@ body{
 }
 .principal-bus {
     width: 90%;
+    
+    
+}
+
+.checkPanel{
+    width: 100%;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: space-around;
 
 }
 
@@ -200,3 +240,4 @@ body{
   .no-after::after {
     content: none;
   }
+
