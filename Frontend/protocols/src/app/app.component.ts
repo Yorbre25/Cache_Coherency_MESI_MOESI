@@ -208,6 +208,7 @@ export class AppComponent {
     console.log(this.selectedProtocol)
   }
   
+  
   handleTransaction(tran:transition){
     let state=stateDict[tran.Op]
     console.log(tran)
