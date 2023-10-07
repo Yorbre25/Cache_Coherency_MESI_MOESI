@@ -6,11 +6,18 @@ namespace Proyecto_Arqui.Classes.Mesi
 {
     public class MesiCPU: CPU
     {
+
+        public bool exec_inst;
+
+        public int id;
         public MesiCPU(int _id)
         {
             list_register = new int[8];
             cache = new MesiCache();
             id = _id;
+            instrucctions = new List<string>();
+            instrucctions_executed = new List<string>();
+            generate_inst();
             Debug.WriteLine($"MesiCPU:{id}, Starting thread");
             Console.WriteLine($"MesiCPU:{id}, Starting thread");
             Thread thread = new Thread(new ThreadStart(check_interconnect));
@@ -20,15 +27,37 @@ namespace Proyecto_Arqui.Classes.Mesi
         {
             var write = cache.write_to_address(address, list_register[reg], id);
             write.updateCost();
-            MesiController.set_execution(id ,write);
-
+            MesiInterconnect.set_execution(id ,write);
         }
+        public void generate_inst()
+        {
+            this.instrucctions = new List<string>();
+            while (instrucctions.Count < 30)
+            {
+                Random rnd = new Random();
+                int inst = rnd.Next(0, 3);
+                //read
+                if (inst == 0)
+                {
+                    instrucctions.Add($"read {rnd.Next(0, 8)} {rnd.Next(0, 16)}");
+                }//write
+                else if (inst == 1)
+                {
+                    instrucctions.Add($"write {rnd.Next(0, 8)} {rnd.Next(0, 16)}");
+                }//inq
+                else
+                {
+                    instrucctions.Add($"increment {rnd.Next(0, 8)} {rnd.Next(0, 16)}");
+                }
+            }
+        }
+
         public Transaction_tracker read(int address, int reg)
         {
             var read = cache.get_from_address(address, id);
             read.updateCost();
             list_register[reg] = read.cache_resp[2];
-            MesiController.set_execution(id, read);
+            MesiInterconnect.set_execution(id, read);
             return read;
         }
         public void increment_reg(int reg)
@@ -55,11 +84,13 @@ namespace Proyecto_Arqui.Classes.Mesi
             }
         }
 
+
+
         private void check_interconnect()
         {
             while (true)
             {
-                if (instruction_to_execute != null && MesiInterconnect.Instance.inst_active == false && MesiInterconnect.Instance.active_cpu == -1)
+                if (exec_inst != false && MesiInterconnect.Instance.inst_active == false && MesiInterconnect.Instance.active_cpu == -1)
                 {
                     lock (MesiInterconnect.Instance)
                     {
@@ -67,23 +98,24 @@ namespace Proyecto_Arqui.Classes.Mesi
                         Console.WriteLine($"MesiCPU:{id}, blocking Interconnect and executing");
                         MesiInterconnect.Instance.inst_active = true;
                         MesiInterconnect.Instance.active_cpu = id;
-                        execute_inst(instruction_to_execute);
-                        instruction_to_execute = null;
+                        if(instrucctions.Count <= 5)
+                        {
+                            reset();
+                        }
+                        execute_inst(instrucctions[0]);
+                        instrucctions_executed.Add(instrucctions[0]);
+                        instrucctions.RemoveAt(0);
+                        exec_inst = false;
                         MesiInterconnect.Instance.active_cpu = -1;
                         MesiInterconnect.Instance.inst_active = false;
                     }
-
                 }
                 else
                 {
-                    Debug.WriteLine($"MesiCPU:{id}, sleeping");
-                    Console.WriteLine($"MesiCPU:{id}, sleeping");
-                    TimeSpan interval = new TimeSpan(0, 0, 2);
+                    TimeSpan interval = new TimeSpan(0, 0, 0, 0, 1);
                     Thread.Sleep(interval);
                 }
-                
             }
-
         }
 
         public override CPU copy()
@@ -95,13 +127,30 @@ namespace Proyecto_Arqui.Classes.Mesi
                 res.cache.memory[i][1] = this.cache.memory[i][1];
                 res.cache.memory[i][2] = this.cache.memory[i][2];
             }
-
             for (int i = 0; i < this.list_register.Length; i++)
             {
                 res.list_register[i] = this.list_register[i];
             }
+
+            res.instrucctions = new List<string>();
+            res.instrucctions.Add(this.instrucctions[0]);
+            res.instrucctions.Add(this.instrucctions[1]);
+            res.instrucctions.Add(this.instrucctions[2]);
+            res.instrucctions.Add(this.instrucctions[3]);
+
+            res.instrucctions_executed = new List<string>();
+            for (int i = 0; i < this.instrucctions_executed.Count; i++)
+            {
+                res.instrucctions_executed.Add(instrucctions_executed[i]);
+            }
             return res;
         }
 
+        public override void reset()
+        {
+            instrucctions = new List<string>();
+            instrucctions_executed = new List<string>();
+            generate_inst();
+        }
     }
 }
