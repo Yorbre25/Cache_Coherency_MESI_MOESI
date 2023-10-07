@@ -191,6 +191,12 @@ export class AppComponent {
     //this.currentReadReq
     else if(tran.Op == "WRITE_REQ" || tran.Op == "READ_REQ" || tran.Op == "RESP" ){
       this.addressTransaction(tran)
+    }else{
+      this.isArrowColored2 = false;
+      this.isArrowColored3 = false;
+      this.isArrowColored4 = false;
+      this.isArrowColored1 = false;
+      this.principalDataBus = 'black';
     }
   }
   principalDataBus= '';
