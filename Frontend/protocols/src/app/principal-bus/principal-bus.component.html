@@ -1,6 +1,7 @@
 <div class="arrow-container">
-    <!--<div class="arrow-bidirectional" (click)="animateArrow()" [ngClass]="{'arrow-grow': isArrowAnimating}"></div> -->
-    <div class="arrow-bidirectional" id="bus" (click)="change_arrowColor()" [ngClass]="{'arrow-grow': isArrowAnimating, 'arrow-colored': isArrowColored}"></div>
+  <!--<div class="arrow-bidirectional" (click)="animateArrow()" [ngClass]="{'arrow-grow': isArrowAnimating}"></div> -->
+  <div class="arrow-bidirectional" id="bus"  [ngClass]="{'arrow-grow': isArrowAnimating,
+   'arrow-colored-red': color == 'red', 'arrow-colored-blue': color == 'blue', 'arrow-colored-green': color=='green'}"></div>
 
-  </div>
+</div>
 <!-- <canvas #canvas width="400" height="400"></canvas> -->

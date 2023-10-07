@@ -47,6 +47,7 @@ export class AppComponent {
   
 
   time:number=1000;
+  cpu_request = -1
 
   constructor(private network:NetworkService){}
   
@@ -191,10 +192,12 @@ export class AppComponent {
   }
 
   handleTransactionBundle(transitions:transition[]):void{
-    
+    console.log("Transition Lenght:"+ transitions.length)
     if(transitions.length<=0){
+      
       timer(this.time).subscribe(()=>{
         this.setDefaultColor();
+        this.buttonClickEject()
       })
       return
     }
@@ -202,25 +205,106 @@ export class AppComponent {
     timer(this.time).subscribe(()=>{
       this.handleTransactionBundle(transitions.slice(1))
     })
-    
-
-   
-    
   }
 
   handleTransactionBuses(tran:transition){
+    console.log("----------- Transaccion ------------------")
+    console.log(this.currentReadReq)
+    console.log(tran)
+    console.log("----------- Transaccion ------------------")
     if(tran.Op == "SHARED"){
-      this.isArrowColored10 = true;
-      this.isArrowColored9 = true;
-      this.isArrowColored11 = true;
-    } else{
-      this.isArrowColored10 = false;
-      this.isArrowColored9 = false;
-      this.isArrowColored11 = false;
-    }
+      this.sharedTransaction(tran)
+    } 
     //this.currentReadReq
-    if(tran.Op == ""){
+    else if(tran.Op == "WRITE_REQ" || tran.Op == "READ_REQ" || tran.Op == "RESP" ){
+      this.addressTransaction(tran)
+    }else{
+      this.isArrowColored2 = false;
+      this.isArrowColored3 = false;
+      this.isArrowColored4 = false;
+      this.isArrowColored1 = false;
+      this.principalDataBus = 'black';
+    }
+  }
+  principalDataBus= '';
+  principalAddressBus= '';
+  principalSharedBus= '';
 
+  sharedTransaction(tran:transition){
+    this.principalSharedBus = 'red';
+    if(tran.Cpu_num == 0){
+      this.isArrowColored9 = true;
+      this.isArrowColored10 = false;
+      this.isArrowColored11 = false;
+    } else if(tran.Cpu_num == 1){
+      this.isArrowColored9 = false;
+      this.isArrowColored10 = true;
+      this.isArrowColored11 = false;
+    }else if(tran.Cpu_num == 2){
+      this.isArrowColored9 = false;
+      this.isArrowColored10 = false;
+      this.isArrowColored11 = true;
+    }
+  }
+  addressTransaction(tran:transition){
+    this.principalAddressBus = 'green';
+    if(tran.Cpu_num == 0){
+      this.isArrowColored5 = false;
+      this.isArrowColored6 = true;
+      this.isArrowColored7 = false;
+      this.isArrowColored8 = false;
+      this.cpu_request = 0
+      this.isArrowColored2 = false;
+      this.isArrowColored3 = false;
+      this.isArrowColored4 = false;
+      this.isArrowColored1 = false;
+      this.principalDataBus = 'black';
+    } else if(tran.Cpu_num == 1){
+      this.isArrowColored5 = false;
+      this.isArrowColored6 = false;
+      this.isArrowColored7 = true;
+      this.isArrowColored8 = false;
+      this.cpu_request = 1
+      this.isArrowColored2 = false;
+      this.isArrowColored3 = false;
+      this.isArrowColored4 = false;
+      this.isArrowColored1 = false;
+      this.principalDataBus = 'black';
+    }else if(tran.Cpu_num == 2){
+      this.isArrowColored5 = false;
+      this.isArrowColored6 = false;
+      this.isArrowColored7 = false;
+      this.isArrowColored8 = true;
+      this.cpu_request = 2
+      this.isArrowColored2 = false;
+      this.isArrowColored3 = false;
+      this.isArrowColored4 = false;
+      this.isArrowColored1 = false;
+      this.principalDataBus = 'black';
+    }else if(tran.Cpu_num == 3){
+      this.isArrowColored5 = true;
+      this.dataTransaction(tran)
+    }
+  }
+
+  address = false
+  dataTransaction(tran:transition){
+    
+    this.principalDataBus = 'blue';
+    if(this.cpu_request == 0){
+      this.isArrowColored2 = true;
+      this.isArrowColored3 = false;
+      this.isArrowColored4 = false;
+    } else if(this.cpu_request == 1){
+      this.isArrowColored2 = false;
+      this.isArrowColored3 = true;
+      this.isArrowColored4 = false;
+    }else if(this.cpu_request == 2){
+      this.isArrowColored2 = false;
+      this.isArrowColored3 = false;
+      this.isArrowColored4 = true;
+    }if(tran.Cpu_num == 3){
+      this.isArrowColored1 = true;
     }
   }
 
@@ -313,27 +397,26 @@ export class AppComponent {
   isArrowColored17 = false;
   
   buttonClickEject(){
-    
-    
-
-    this.isArrowColored1 = !this.isArrowColored1;
-    this.isArrowColored2 = !this.isArrowColored2;
-    this.isArrowColored3 = !this.isArrowColored3;
-    this.isArrowColored4 = !this.isArrowColored4;
-    this.isArrowColored5 = !this.isArrowColored5;
-    this.isArrowColored6 = !this.isArrowColored6;
-    this.isArrowColored7 = !this.isArrowColored7;
-    this.isArrowColored8 = !this.isArrowColored8;
-    this.isArrowColored9 = !this.isArrowColored9;
-    this.isArrowColored10 = !this.isArrowColored10;
-    this.isArrowColored11 = !this.isArrowColored11;
-    this.isArrowColored12 = !this.isArrowColored12;
-    this.isArrowColored13 = !this.isArrowColored13;
-    this.isArrowColored14 = !this.isArrowColored14;
-    this.isArrowColored15 = !this.isArrowColored15;
-    this.isArrowColored16 = !this.isArrowColored16;
-    this.isArrowColored17 = !this.isArrowColored17;
-    
+    this.isArrowColored1 = false;
+    this.isArrowColored2 = false;
+    this.isArrowColored3 = false;
+    this.isArrowColored4 = false;
+    this.isArrowColored5 = false;
+    this.isArrowColored6 = false;
+    this.isArrowColored7 = false;
+    this.isArrowColored8 = false;
+    this.isArrowColored9 = false;
+    this.isArrowColored10 = false;
+    this.isArrowColored11 = false;
+    this.isArrowColored12 = false;
+    this.isArrowColored13 = false;
+    this.isArrowColored14 = false;
+    this.isArrowColored15 = false;
+    this.isArrowColored16 = false;
+    this.isArrowColored17 = false;
+    this.principalSharedBus = 'black'
+    this.principalAddressBus = 'black'
+    this.principalDataBus = 'black'
   }
 
 

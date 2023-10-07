@@ -1,11 +1,11 @@
-import { Component, ElementRef, ViewChild, OnInit} from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, Input} from '@angular/core';
 @Component({
   selector: 'app-principal-bus',
   templateUrl: './principal-bus.component.html',
   styleUrls: ['./principal-bus.component.css']
 })
 export class PrincipalBusComponent implements OnInit {
-
+  @Input() color : string = '';
 
 
   ngOnInit() {
