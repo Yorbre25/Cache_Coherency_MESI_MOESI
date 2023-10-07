@@ -159,7 +159,7 @@ export class AppComponent {
     this.network.get_request(this.selectedProtocol+"/step",step).subscribe(
       (response:stepExecutionReport)=>{
         console.log(response)
-        this.handleTransactionBundle(response.Transition_request);
+        console.log(response.Transition_request)
         console.log(response.initial_CPU_list[0].instrucctions)
         this.InstructionContent1=response.initial_CPU_list[0].instrucctions;
         this.InstructionContent1=[...this.InstructionContent1]
@@ -168,6 +168,8 @@ export class AppComponent {
         this.InstructionContent2=[...this.InstructionContent2]
         this.InstructionContent3=response.initial_CPU_list[2].instrucctions;
         this.InstructionContent3=[...this.InstructionContent3]
+
+        this.handleTransactionBundle(response.Transition_request);
       }
     )
     
@@ -205,6 +207,9 @@ export class AppComponent {
   sisi(){
     console.log(this.selectedProtocol)
   }
+
+
+  
   
   handleTransaction(tran:transition){
     let state=stateDict[tran.Op]

@@ -22,9 +22,10 @@ namespace Proyecto_Arqui.Controllers
         [HttpGet("run_all")]
         public string Get()
         {
-            var msg = new front_end_data(MesiInterconnect.Instance);
-            var temp = MesiInterconnect.Instance.run_all();
-            msg.update_data(MesiInterconnect.Instance, temp);
+            var msg = new front_end_data(MoesiInterconnect.Instance);
+            var temp = MoesiInterconnect.Instance.run_all();
+            msg.update_data(MoesiInterconnect.Instance, temp);
+            Create_Report.create_file(msg, temp);
             return JsonConvert.SerializeObject(msg, Formatting.Indented);
         }
 
@@ -47,9 +48,9 @@ namespace Proyecto_Arqui.Controllers
                 cpu3 = true;
             }
 
-            var msg = new front_end_data(MesiInterconnect.Instance);
-            var temp = MesiInterconnect.Instance.run_all(cpu1, cpu2, cpu3);
-            msg.update_data(MesiInterconnect.Instance, temp);
+            var msg = new front_end_data(MoesiInterconnect.Instance);
+            var temp = MoesiInterconnect.Instance.run_all(cpu1, cpu2, cpu3);
+            msg.update_data(MoesiInterconnect.Instance, temp);
             return JsonConvert.SerializeObject(msg, Formatting.Indented);
         }
 
@@ -72,9 +73,10 @@ namespace Proyecto_Arqui.Controllers
                 cpu3 = true;
             }
 
-            var msg = new front_end_data(MesiInterconnect.Instance);
-            var temp = MesiInterconnect.Instance.run(cpu1, cpu2, cpu3);
-            msg.update_data(MesiInterconnect.Instance, temp);
+            var msg = new front_end_data(MoesiInterconnect.Instance);
+            var temp = MoesiInterconnect.Instance.run(cpu1, cpu2, cpu3);
+            msg.update_data(MoesiInterconnect.Instance, temp);
+            Create_Report.create_file(msg, temp);
             return JsonConvert.SerializeObject(msg, Formatting.Indented);
         }
     }

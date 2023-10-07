@@ -39,11 +39,27 @@ namespace Proyecto_Arqui.Classes.Moesi
         }
         public static Transaction_tracker get_execution(int cpu_id)
         {
+            if (response.Count < 3)
+            {
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+            }
             return response[cpu_id];
         }
 
         public static void set_execution(int cpu_id, Transaction_tracker exec)
         {
+            if (response.Count < 3)
+            {
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+                response.Add(new Transaction_tracker());
+            }
+            if(cpu_id > 3)
+            {
+                return;
+            }
             response[cpu_id] = exec;
         }
         public static MoesiInterconnect Instance

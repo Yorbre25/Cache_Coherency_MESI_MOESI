@@ -7,7 +7,7 @@ namespace Proyecto_Arqui.Controllers
     public class Create_Report
     {
         public static void create_file(front_end_data exec_data, Transaction_tracker transaction) {
-            string fileName = @"C:\Users\briwa\Documents\report.txt";
+            string fileName = @"C:\Users\Faleivac\Documents\GitHub\Proyecto_I_Arqui_II\Report.txt";
 
             try
             {
