@@ -207,8 +207,6 @@ export class AppComponent {
   sisi(){
     console.log(this.selectedProtocol)
   }
-
-
   
   
   handleTransaction(tran:transition){
