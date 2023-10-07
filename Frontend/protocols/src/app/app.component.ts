@@ -146,10 +146,12 @@ export class AppComponent {
   }
 
   handleTransactionBundle(transitions:transition[]):void{
-
+    console.log("Transition Lenght:"+ transitions.length)
     if(transitions.length<=0){
+      
       timer(this.time).subscribe(()=>{
         this.setDefaultColor();
+        this.buttonClickEject()
       })
       return
     }
@@ -165,17 +167,34 @@ export class AppComponent {
 
   handleTransactionBuses(tran:transition){
     if(tran.Op == "SHARED"){
-      this.isArrowColored10 = true;
-      this.isArrowColored9 = true;
-      this.isArrowColored11 = true;
+      this.sharedTransaction(tran)
     } else{
-      this.isArrowColored10 = false;
-      this.isArrowColored9 = false;
-      this.isArrowColored11 = false;
+      
     }
     //this.currentReadReq
-    if(tran.Op == ""){
-
+    if(tran.Op == "WRITE_REQ" || tran.Op == "READ_REQ" || tran.Op == "RESP" ){
+      this.isArrowColored5 = true;
+      this.isArrowColored6 = true;
+      this.isArrowColored7 = true;
+      this.isArrowColored8 = true;
+    }else {
+      this.isArrowColored5 = false;
+      this.isArrowColored6 = false;
+      this.isArrowColored7 = false;
+      this.isArrowColored8 = false;
+    }
+  }
+  principalDataBus= '';
+  principalAddressBus= '';
+  principalSharedBus= '';
+  sharedTransaction(tran:transition){
+    this.principalSharedBus = 'red';
+    if(tran.Cpu_num == 0){
+      this.isArrowColored9 = true;
+    } else if(tran.Cpu_num == 1){
+      this.isArrowColored10 = true;
+    }else {
+      this.isArrowColored11 = true;
     }
   }
 
@@ -268,27 +287,26 @@ export class AppComponent {
   isArrowColored17 = false;
   
   buttonClickEject(){
-    
-    
-
-    this.isArrowColored1 = !this.isArrowColored1;
-    this.isArrowColored2 = !this.isArrowColored2;
-    this.isArrowColored3 = !this.isArrowColored3;
-    this.isArrowColored4 = !this.isArrowColored4;
-    this.isArrowColored5 = !this.isArrowColored5;
-    this.isArrowColored6 = !this.isArrowColored6;
-    this.isArrowColored7 = !this.isArrowColored7;
-    this.isArrowColored8 = !this.isArrowColored8;
-    this.isArrowColored9 = !this.isArrowColored9;
-    this.isArrowColored10 = !this.isArrowColored10;
-    this.isArrowColored11 = !this.isArrowColored11;
-    this.isArrowColored12 = !this.isArrowColored12;
-    this.isArrowColored13 = !this.isArrowColored13;
-    this.isArrowColored14 = !this.isArrowColored14;
-    this.isArrowColored15 = !this.isArrowColored15;
-    this.isArrowColored16 = !this.isArrowColored16;
-    this.isArrowColored17 = !this.isArrowColored17;
-    
+    this.isArrowColored1 = false;
+    this.isArrowColored2 = false;
+    this.isArrowColored3 = false;
+    this.isArrowColored4 = false;
+    this.isArrowColored5 = false;
+    this.isArrowColored6 = false;
+    this.isArrowColored7 = false;
+    this.isArrowColored8 = false;
+    this.isArrowColored9 = false;
+    this.isArrowColored10 = false;
+    this.isArrowColored11 = false;
+    this.isArrowColored12 = false;
+    this.isArrowColored13 = false;
+    this.isArrowColored14 = false;
+    this.isArrowColored15 = false;
+    this.isArrowColored16 = false;
+    this.isArrowColored17 = false;
+    this.principalSharedBus = 'black'
+    this.principalAddressBus = 'black'
+    this.principalDataBus = 'black'
   }
 
 

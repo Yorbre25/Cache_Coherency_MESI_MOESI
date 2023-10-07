@@ -47,15 +47,40 @@
   
 
  
-
-  .arrow-colored {
+  .arrow-colored-red {
     background-color: red; /* Cambia a tu color preferido */
   }
-  .arrow-colored:before,
-  .arrow-colored:after {
+  .arrow-colored-red:before,
+  .arrow-colored-red:after {
     border-color: transparent transparent transparent red; /* Cambia 'red' a tu color preferido */
   }
-  
-  .arrow-colored:before {
+
+  .arrow-colored-red:before {
     border-right-color: red; /* Cambia 'red' a tu color preferido */
   }
+
+.arrow-colored-green {
+  background-color: greenyellow; /* Cambia a tu color preferido */
+}
+.arrow-colored-green:before,
+.arrow-colored-green:after {
+  border-color: transparent transparent transparent greenyellow; /* Cambia 'red' a tu color preferido */
+}
+
+.arrow-colored-green:before {
+  border-right-color: greenyellow; /* Cambia 'red' a tu color preferido */
+}
+
+
+/*Blue*/
+.arrow-colored-blue {
+  background-color: blue; /* Cambia a tu color preferido */
+}
+.arrow-colored-blue:before,
+.arrow-colored-blue:after {
+  border-color: transparent transparent transparent blue; /* Cambia 'red' a tu color preferido */
+}
+
+.arrow-colored-blue:before {
+  border-right-color: blue; /* Cambia 'red' a tu color preferido */
+}
