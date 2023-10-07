@@ -1,0 +1,8 @@
+Report:
+ INV:0
+ ReadReq/resp:1 
+ WriteReq/resp:0
+ pe->cache comunication:0
+ pe->pe comunication:0
+ pe->memory comunication:1
+ cost:62,9
