@@ -102,6 +102,7 @@ namespace Proyecto_Arqui.Classes.Mesi
                         Console.WriteLine($"MesiCPU:{id}, blocking Interconnect and executing");
                         MesiInterconnect.Instance.inst_active = true;
                         MesiInterconnect.Instance.active_cpu = id;
+                        
                         if(instrucctions.Count <= 5)
                         {
                             reset();
@@ -137,10 +138,20 @@ namespace Proyecto_Arqui.Classes.Mesi
             }
 
             res.instrucctions = new List<string>();
-            res.instrucctions.Add(this.instrucctions[0]);
-            res.instrucctions.Add(this.instrucctions[1]);
-            res.instrucctions.Add(this.instrucctions[2]);
-            res.instrucctions.Add(this.instrucctions[3]);
+            var str = "";
+            var str1 = "";
+            var str2 = "";
+            var str3 = "";
+
+            str.Concat(this.instrucctions[0]);
+            str1.Concat(this.instrucctions[1]);
+            str2.Concat(this.instrucctions[2]);
+            str3.Concat(this.instrucctions[3]);
+
+            res.instrucctions.Add(str);
+            res.instrucctions.Add(str1);
+            res.instrucctions.Add(str2);
+            res.instrucctions.Add(str3);
             res.instrucctions_executed = new List<string>();
             return res;
         }
