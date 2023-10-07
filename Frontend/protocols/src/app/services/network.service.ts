@@ -10,7 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 export class NetworkService {
 
   constructor(private http:HttpClient) { }
-  serverIp: string = 'https://rest-api-xfia.azurewebsites.net/';
+  serverIp: string = 'https://localhost:7158/';
 
   get_request(url: string, Params: any): Observable<any> {
     var http_params = new HttpParams({ fromObject: Params });
